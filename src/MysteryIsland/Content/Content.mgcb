@@ -14,6 +14,21 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin characters/char1-sprite.sf
+/copy:characters/char1-sprite.sf
+
+#begin characters/macks-spritesheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:characters/macks-spritesheet.png
+
 #begin maps/exp.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
