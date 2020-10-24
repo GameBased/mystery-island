@@ -49,7 +49,7 @@ namespace MysteryIsland
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load the map
-            map = Content.Load<TiledMap>("maps/ortho");
+            map = Content.Load<TiledMap>("maps/exp");
             // Create the map renderer
             mapRenderer = new TiledMapRenderer(GraphicsDevice, map);
             // If you decided to use the camere, then you could also initialize it here like this
