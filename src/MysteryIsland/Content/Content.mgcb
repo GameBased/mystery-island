@@ -14,6 +14,11 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin maps/exp.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:maps/exp.tmx
+
 #begin maps/ortho.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
@@ -24,7 +29,7 @@
 /processor:TiledMapTilesetProcessor
 /build:maps/ortho_test.tsx
 
-#begin maps/tileset/map_pergament.png
+#begin maps/tilesets/map_pergament.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -34,9 +39,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:maps/tileset/map_pergament.png
+/build:maps/tilesets/map_pergament.png
 
-#begin maps/tileset/map_tiles.png
+#begin maps/tilesets/map_tiles.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -46,5 +51,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:maps/tileset/map_tiles.png
+/build:maps/tilesets/map_tiles.png
 
