@@ -1,0 +1,49 @@
+{
+  "textureAtlas": {
+    "texture": "macks-spritesheet.png",
+    "regionWidth": 32,
+    "regionHeight": 48
+  },
+  "cycles": {
+    "walk-forward": {
+      "frames": [36,38],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "look-forward": {
+      "frames": [37],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "walk-right": {
+      "frames": [26,24],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "look-right": {
+      "frames": [25],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "walk-left": {
+      "frames": [12,14],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "look-left": {
+      "frames": [13],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "walk-backward": {
+      "frames": [0,2],
+      "isLooping": false,
+      "frameDuration": 0.2
+    },
+    "look-backward": {
+      "frames": [1],
+      "isLooping": false,
+      "frameDuration": 0.2
+    }
+  }
+}
