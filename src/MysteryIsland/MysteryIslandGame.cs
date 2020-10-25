@@ -2,16 +2,15 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
-
-
-using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
-using MysteryIsland.Extensions;
 using MonoGame.Extended.Input;
 using MonoGame.Extended.Collisions;
+
 using MysteryIsland.Collisions;
+
 using System.Linq;
 
 namespace MysteryIsland
@@ -22,12 +21,13 @@ namespace MysteryIsland
         public SpriteBatch SpriteBatch { get; private set; }
 
         // The camera object
-        private OrthographicCamera camera;
+        private Camera camera;
         private TiledMap map;
         private TiledMapRenderer mapRenderer;
 
         private PlayableCharacter character = new PlayableCharacter();
-        private CollisionComponent _collisionComponent;
+        private CollisionComponent collisionComponent;
+        private DebugOverlay debugOverlay = new DebugOverlay();
 
         const int WIDTH = 960;
         const int HEIGHT = 540;
@@ -63,15 +63,15 @@ namespace MysteryIsland
             mapRenderer = new TiledMapRenderer(GraphicsDevice, map);
             // If you decided to use the camere, then you could also initialize it here like this
             var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, WIDTH, HEIGHT);
-            camera = new OrthographicCamera(viewportadapter);
+            camera = new Camera(viewportadapter, GraphicsDevice.Viewport.Bounds);
 
             character.LoadContent(Content);
-            _collisionComponent = new CollisionComponent(new RectangleF(0, 0, map.WidthInPixels, map.HeightInPixels));
+            collisionComponent = new CollisionComponent(new RectangleF(0, 0, map.WidthInPixels, map.HeightInPixels));
             var layer = map.GetLayer<TiledMapTileLayer>("collision");
             
-            foreach (var collidableTile in layer.Tiles.Where(t => !t.IsBlank).Select(t => new TileActor(t, tileWIdth: map.TileWidth, map.TileHeight))) _collisionComponent.Insert(collidableTile);
-            _collisionComponent.Insert(character);
-            _collisionComponent.Initialize();
+            foreach (var collidableTile in layer.Tiles.Where(t => !t.IsBlank).Select(t => new TileActor(t, tileWIdth: map.TileWidth, map.TileHeight))) collisionComponent.Insert(collidableTile);
+            collisionComponent.Insert(character);
+            collisionComponent.Initialize();
         }
 
         protected override void Update(GameTime gameTime)
@@ -84,10 +84,11 @@ namespace MysteryIsland
             
             // Update the map renderer
             mapRenderer.Update(gameTime);
-            camera.LookAt(map, character, GraphicsDevice.Viewport.Bounds);
+            camera.Update(map, character);
 
-            _collisionComponent.Update(gameTime);
+            collisionComponent.Update(gameTime);
             base.Update(gameTime);
+            debugOverlay.Update(character, gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -104,6 +105,8 @@ namespace MysteryIsland
             character.Draw(SpriteBatch);
 
             // base.Draw(gameTime);
+
+            debugOverlay.Draw(SpriteBatch, camera);
 
             // End the sprite batch
             SpriteBatch.End();            
