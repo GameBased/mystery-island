@@ -5,12 +5,14 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 
-// To get the camera
+
 using MonoGame.Extended;
-// Then you need a viewport adapter
 using MonoGame.Extended.ViewportAdapters;
 using MysteryIsland.Extensions;
 using MonoGame.Extended.Input;
+using MonoGame.Extended.Collisions;
+using MysteryIsland.Collisions;
+using System.Linq;
 
 namespace MysteryIsland
 {
@@ -25,6 +27,7 @@ namespace MysteryIsland
         private TiledMapRenderer mapRenderer;
 
         private PlayableCharacter character = new PlayableCharacter();
+        private CollisionComponent _collisionComponent;
 
         const int WIDTH = 960;
         const int HEIGHT = 540;
@@ -53,8 +56,7 @@ namespace MysteryIsland
         protected override void LoadContent()
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-             
-
+            
             // Load the map
             map = Content.Load<TiledMap>("maps/exp");
             // Create the map renderer
@@ -64,6 +66,12 @@ namespace MysteryIsland
             camera = new OrthographicCamera(viewportadapter);
 
             character.LoadContent(Content);
+            _collisionComponent = new CollisionComponent(new RectangleF(0, 0, map.WidthInPixels, map.HeightInPixels));
+            var tiles = map.GetLayer<TiledMapTileLayer>("collision").Tiles;
+
+            foreach (var collidableTile in tiles.Where(t => !t.IsBlank).Select(t => new TileActor(t, tileWIdth: map.TileWidth, map.TileHeight))) _collisionComponent.Insert(collidableTile);
+            _collisionComponent.Insert(character);
+            _collisionComponent.Initialize();
         }
 
         protected override void Update(GameTime gameTime)
@@ -77,7 +85,8 @@ namespace MysteryIsland
             // Update the map renderer
             mapRenderer.Update(gameTime);
             camera.LookAt(map, character, GraphicsDevice.Viewport.Bounds);
-            
+
+            _collisionComponent.Update(gameTime);
             base.Update(gameTime);
         }
 

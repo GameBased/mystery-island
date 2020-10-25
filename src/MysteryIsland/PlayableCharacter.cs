@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
+using MonoGame.Extended.Collisions;
 using MonoGame.Extended.Content;
 using MonoGame.Extended.Input;
 using MonoGame.Extended.Serialization;
@@ -9,7 +11,7 @@ using MonoGame.Extended.Sprites;
 
 namespace MysteryIsland
 {
-    public class PlayableCharacter
+    public class PlayableCharacter : ICollisionActor
     {
         const string ANIMATION_WALK_BACKWARD = "walk-backward";
         const string ANIMATION_WALK_FORWARD  = "walk-forward";
@@ -18,8 +20,12 @@ namespace MysteryIsland
         const string ANIMATION_DEFAULT       = "look-backward";
 
         private AnimatedSprite sprite;
+        private Vector2 _previousPosition = new Vector2(100, 100);
         private Vector2 _position = new Vector2(100, 100);
         public Vector2 Position => _position;
+
+        public IShapeF Bounds => new RectangleF(_position.X, _position.Y, _position.X + sprite.GetBoundingRectangle(new Transform2()).Width, _position.Y + sprite.GetBoundingRectangle(new Transform2()).Height);
+
         private string animation = ANIMATION_DEFAULT;
 
         public void LoadContent(ContentManager content)
@@ -29,12 +35,14 @@ namespace MysteryIsland
             sprite.Play("walk-backward");
         }
 
+
         public void Update(GameTime gameTime)
         {
             var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             var walkSpeed = deltaSeconds * 128;
             var keyboard = KeyboardExtended.GetState();
             animation = animation.Replace("walk", "look");
+            _previousPosition = Position;
 
             if (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up))
             {
@@ -67,6 +75,11 @@ namespace MysteryIsland
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(sprite, Position);
+        }
+
+        public virtual void OnCollision(CollisionEventArgs collisionInfo)
+        {
+            _position = _previousPosition;
         }
     }
 }
