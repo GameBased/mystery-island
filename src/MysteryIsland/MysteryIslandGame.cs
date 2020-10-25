@@ -16,7 +16,7 @@ namespace MysteryIsland
 {
     public class MysteryIslandGame : Game
     {
-        private GraphicsDeviceManager _graphics;
+        private GraphicsDeviceManager graphics;
         public SpriteBatch SpriteBatch { get; private set; }
 
         // The camera object
@@ -26,10 +26,12 @@ namespace MysteryIsland
 
         private PlayableCharacter character = new PlayableCharacter();
 
+        const int WIDTH = 960;
+        const int HEIGHT = 540;
+
         public MysteryIslandGame()
         {
-            _graphics = new GraphicsDeviceManager(this);
-
+            graphics = new GraphicsDeviceManager(this);
             // _graphics.IsFullScreen = true;
 
 
@@ -38,11 +40,12 @@ namespace MysteryIsland
         }
 
         protected override void Initialize()
-        {   
+        {
             // Initialize logic goes before the base.Initialize
-            _graphics.PreferredBackBufferWidth = 960;
-            _graphics.PreferredBackBufferHeight = 540;
-            _graphics.ApplyChanges();
+            graphics.PreferredBackBufferWidth = WIDTH;
+            graphics.PreferredBackBufferHeight = HEIGHT;
+
+            graphics.ApplyChanges();
 
             base.Initialize();
         }
@@ -57,7 +60,7 @@ namespace MysteryIsland
             // Create the map renderer
             mapRenderer = new TiledMapRenderer(GraphicsDevice, map);
             // If you decided to use the camere, then you could also initialize it here like this
-            var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1280, 832);
+            var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, WIDTH, HEIGHT);
             camera = new OrthographicCamera(viewportadapter);
 
             character.LoadContent(Content);
@@ -67,9 +70,8 @@ namespace MysteryIsland
         {
             var keyboard = KeyboardExtended.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
-            if (keyboard.IsAltDown() && keyboard.IsKeyDown(Keys.Enter)) _graphics.ToggleFullScreen();
+            if (keyboard.IsAltDown() && keyboard.IsKeyDown(Keys.Enter)) graphics.ToggleFullScreen();
 
-            // TODO: Add your update logic here
             character.Update(gameTime);
             
             // Update the map renderer
