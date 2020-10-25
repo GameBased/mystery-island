@@ -67,9 +67,9 @@ namespace MysteryIsland
 
             character.LoadContent(Content);
             _collisionComponent = new CollisionComponent(new RectangleF(0, 0, map.WidthInPixels, map.HeightInPixels));
-            var tiles = map.GetLayer<TiledMapTileLayer>("collision").Tiles;
-
-            foreach (var collidableTile in tiles.Where(t => !t.IsBlank).Select(t => new TileActor(t, tileWIdth: map.TileWidth, map.TileHeight))) _collisionComponent.Insert(collidableTile);
+            var layer = map.GetLayer<TiledMapTileLayer>("collision");
+            
+            foreach (var collidableTile in layer.Tiles.Where(t => !t.IsBlank).Select(t => new TileActor(t, tileWIdth: map.TileWidth, map.TileHeight))) _collisionComponent.Insert(collidableTile);
             _collisionComponent.Insert(character);
             _collisionComponent.Initialize();
         }
