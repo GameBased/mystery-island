@@ -24,7 +24,11 @@ namespace MysteryIsland
         private Vector2 _position = new Vector2(100, 100);
         public Vector2 Position => _position;
 
-        public IShapeF Bounds => new RectangleF(_position.X, _position.Y, _position.X + sprite.GetBoundingRectangle(new Transform2()).Width, _position.Y + sprite.GetBoundingRectangle(new Transform2()).Height);
+        public IShapeF Bounds => new RectangleF(
+                 x: _position.X, 
+                 y: _position.Y, 
+             width: sprite.GetBoundingRectangle(new Transform2()).Width, 
+            height: sprite.GetBoundingRectangle(new Transform2()).Height);
 
         private string animation = ANIMATION_DEFAULT;
 
@@ -79,7 +83,11 @@ namespace MysteryIsland
 
         public virtual void OnCollision(CollisionEventArgs collisionInfo)
         {
-            _position = _previousPosition;
+            //if(collisionInfo.Other.Bounds.Intersects(this.Bounds))
+            //{
+                _position = _previousPosition;
+            // }
+            
         }
     }
 }
