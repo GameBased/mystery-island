@@ -9,11 +9,8 @@ using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended;
 // Then you need a viewport adapter
 using MonoGame.Extended.ViewportAdapters;
-using MonoGame.Extended.TextureAtlases;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.Serialization;
-using MonoGame.Extended.Content;
 using MysteryIsland.Extensions;
+using MonoGame.Extended.Input;
 
 namespace MysteryIsland
 {
@@ -43,8 +40,8 @@ namespace MysteryIsland
         protected override void Initialize()
         {   
             // Initialize logic goes before the base.Initialize
-            _graphics.PreferredBackBufferWidth = 1280;
-            _graphics.PreferredBackBufferHeight = 832;
+            _graphics.PreferredBackBufferWidth = 960;
+            _graphics.PreferredBackBufferHeight = 540;
             _graphics.ApplyChanges();
 
             base.Initialize();
@@ -53,6 +50,7 @@ namespace MysteryIsland
         protected override void LoadContent()
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
+             
 
             // Load the map
             map = Content.Load<TiledMap>("maps/exp");
@@ -62,13 +60,14 @@ namespace MysteryIsland
             var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, 1280, 832);
             camera = new OrthographicCamera(viewportadapter);
 
-
             character.LoadContent(Content);
         }
 
         protected override void Update(GameTime gameTime)
         {
+            var keyboard = KeyboardExtended.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
+            if (keyboard.IsAltDown() && keyboard.IsKeyDown(Keys.Enter)) _graphics.ToggleFullScreen();
 
             // TODO: Add your update logic here
             character.Update(gameTime);
