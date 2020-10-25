@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Content;
+using MonoGame.Extended.Input;
 using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
 
@@ -10,11 +11,16 @@ namespace MysteryIsland
 {
     public class PlayableCharacter
     {
+        const string ANIMATION_WALK_BACKWARD = "walk-backward";
+        const string ANIMATION_WALK_FORWARD  = "walk-forward";
+        const string ANIMATION_WALK_RIGHT    = "walk-right";
+        const string ANIMATION_WALK_LEFT     = "walk-left";
+        const string ANIMATION_DEFAULT       = "look-backward";
+
         private AnimatedSprite sprite;
         private Vector2 _position = new Vector2(100, 100);
         public Vector2 Position => _position;
-
-
+        private string animation = ANIMATION_DEFAULT;
 
         public void LoadContent(ContentManager content)
         {
@@ -27,30 +33,30 @@ namespace MysteryIsland
         {
             var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             var walkSpeed = deltaSeconds * 128;
-            var keyboardState = Keyboard.GetState();
-            var animation = "look-backward";
+            var keyboard = KeyboardExtended.GetState();
+            animation = animation.Replace("walk", "look");
 
-            if (keyboardState.IsKeyDown(Keys.W) || keyboardState.IsKeyDown(Keys.Up))
+            if (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up))
             {
-                animation = "walk-forward";
+                animation = ANIMATION_WALK_FORWARD;
                 _position.Y -= walkSpeed;
             }
 
-            if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
+            if (keyboard.IsKeyDown(Keys.S) || keyboard.IsKeyDown(Keys.Down))
             {
-                animation = "walk-backward";
+                animation = ANIMATION_WALK_BACKWARD;
                 _position.Y += walkSpeed;
             }
 
-            if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
+            if (keyboard.IsKeyDown(Keys.A) || keyboard.IsKeyDown(Keys.Left))
             {
-                animation = "walk-left";
+                animation = ANIMATION_WALK_LEFT;
                 _position.X -= walkSpeed;
             }
 
-            if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
+            if (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Right))
             {
-                animation = "walk-right";
+                animation = ANIMATION_WALK_RIGHT;
                 _position.X += walkSpeed;
             }
 
