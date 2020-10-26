@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
-using MonoGame.Extended.Graphics.Geometry;
 using MonoGame.Extended.Input;
 using System.Diagnostics;
 
@@ -11,7 +10,8 @@ namespace MysteryIsland
     public class DebugOverlay // TODO: this should make the collisions layer invisible when disabled
     {
         private bool isVisible = Debugger.IsAttached;
-        private RectangleF? playerBounds;
+
+        private PlayableCharacter player;
 
         private void ToggleVisibility()
         {
@@ -25,20 +25,24 @@ namespace MysteryIsland
 
             if (isVisible is false) return;
 
-            if (character.Bounds is RectangleF rect) playerBounds = rect;
+            player = character;
         }
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
             if (isVisible is false) return;
-            spriteBatch.DrawRectangle(camera.ScreenToWorld(camera.ViewportBounds), Color.White);
-            if(playerBounds.HasValue)
+
+            // Draw the viewport PAN_BOUNDARY
+            spriteBatch.DrawRectangle(camera.ScreenToWorld(camera.ViewportPanBounds), Color.White);
+
+            // Draw the player bounds
+            if(player.Bounds is RectangleF playerBounds)
             {
-                spriteBatch.DrawRectangle(playerBounds.Value, Color.White);
+                spriteBatch.DrawRectangle(playerBounds, Color.White);
             }
+
+            // Draw the player position
+            spriteBatch.DrawPoint(player.Position, Color.DarkRed, size: 10);
         }
-
-        
-
     }
 }
