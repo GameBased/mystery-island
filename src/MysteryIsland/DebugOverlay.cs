@@ -42,7 +42,7 @@ namespace MysteryIsland
             }
 
             // Draw the player position
-            spriteBatch.DrawPoint(player.Position, Color.DarkRed, size: 10);
+            spriteBatch.DrawPoint(player.Position, Color.DarkRed, size: 6);
         }
     }
 }
