@@ -22,7 +22,7 @@ namespace MysteryIsland
 
         private AnimatedSprite sprite;
         private RectangleF boundingRectangle;
-        private Vector2 _previousPosition = new Vector2(100, 100);
+        private Vector2 previousPosition = new Vector2(100, 100);
         private Vector2 _position = new Vector2(100, 100);
         public Vector2 Position => _position;
 
@@ -49,7 +49,7 @@ namespace MysteryIsland
             var walkSpeed = deltaSeconds * 128;
             var keyboard = KeyboardExtended.GetState();
             animation = animation.Replace("walk", "look");
-            _previousPosition = Position;
+            previousPosition = Position;
 
             if (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up))
             {
@@ -86,10 +86,7 @@ namespace MysteryIsland
 
         public virtual void OnCollision(CollisionEventArgs collisionInfo)
         {
-            //if(collisionInfo.Other.Bounds.Intersects(this.Bounds))
-            //{
-                _position = _previousPosition;
-            // }
+            _position = previousPosition;
             
         }
     }
