@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.ViewportAdapters;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MysteryIsland
 {
@@ -19,25 +15,24 @@ namespace MysteryIsland
 
         public Vector2 Position => camera.Position;
         public Rectangle Viewport { get; }
-        public Rectangle ViewportBounds { get; } // the viewport bounds within which the camera shouldn't pan
+        public Rectangle ViewportPanBounds { get; } // the viewport bounds within which the camera shouldn't pan
 
         private readonly OrthographicCamera camera;
         public Camera(ViewportAdapter adapter, Rectangle viewport)
         {
             this.camera = new OrthographicCamera(adapter);
             Viewport = viewport;
-            ViewportBounds = new Rectangle(
+            ViewportPanBounds = new Rectangle(
                      x: viewport.X + PAN_BOUNDARY,
                      y: viewport.Y + PAN_BOUNDARY,
                  width: viewport.Width - PAN_BOUNDARY * 2,
-                height: viewport.Height - PAN_BOUNDARY * 2)
-            ;
+                height: viewport.Height - PAN_BOUNDARY * 2);
         }
 
         public void Update(TiledMap map, PlayableCharacter character)
         {
             var characterViewportPosition = camera.WorldToScreen(character.Position);
-            if (ViewportBounds.Contains(characterViewportPosition)) return;
+            if (ViewportPanBounds.Contains(characterViewportPosition)) return;
 
             var panOffset = new Vector2(
                     x: getX(),
@@ -56,10 +51,10 @@ namespace MysteryIsland
             float getX()
             {
                 // move to the right
-                if (characterViewportPosition.X > ViewportBounds.Right) return characterViewportPosition.X - ViewportBounds.Right;
+                if (characterViewportPosition.X > ViewportPanBounds.Right) return characterViewportPosition.X - ViewportPanBounds.Right;
 
                 // move to the left
-                else if (characterViewportPosition.X < ViewportBounds.Left) return characterViewportPosition.X - ViewportBounds.Left;
+                else if (characterViewportPosition.X < ViewportPanBounds.Left) return characterViewportPosition.X - ViewportPanBounds.Left;
 
                 // don't move
                 else return 0;
@@ -68,10 +63,10 @@ namespace MysteryIsland
             float getY()
             {
                 // move towards the bottom
-                if (characterViewportPosition.Y > ViewportBounds.Bottom) return characterViewportPosition.Y - ViewportBounds.Bottom;
+                if (characterViewportPosition.Y > ViewportPanBounds.Bottom) return characterViewportPosition.Y - ViewportPanBounds.Bottom;
 
                 // move towards the top
-                else if (characterViewportPosition.Y < ViewportBounds.Top) return characterViewportPosition.Y - ViewportBounds.Top;
+                else if (characterViewportPosition.Y < ViewportPanBounds.Top) return characterViewportPosition.Y - ViewportPanBounds.Top;
 
                 // don't move
                 else return 0;
