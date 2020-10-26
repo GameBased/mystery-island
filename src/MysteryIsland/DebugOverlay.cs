@@ -11,6 +11,7 @@ namespace MysteryIsland
     public class DebugOverlay // TODO: this should make the collisions layer invisible when disabled
     {
         private bool isVisible = Debugger.IsAttached;
+        private RectangleF? playerBounds;
 
         private void ToggleVisibility()
         {
@@ -24,13 +25,17 @@ namespace MysteryIsland
 
             if (isVisible is false) return;
 
-
+            if (character.Bounds is RectangleF rect) playerBounds = rect;
         }
 
         public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
             if (isVisible is false) return;
-            ShapeExtensions.DrawRectangle(spriteBatch, camera.ScreenToWorld(camera.ViewportBounds), Color.White);
+            spriteBatch.DrawRectangle(camera.ScreenToWorld(camera.ViewportBounds), Color.White);
+            if(playerBounds.HasValue)
+            {
+                spriteBatch.DrawRectangle(playerBounds.Value, Color.White);
+            }
         }
 
         
