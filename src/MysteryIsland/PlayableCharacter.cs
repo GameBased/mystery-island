@@ -13,6 +13,7 @@ namespace MysteryIsland
 {
     public class PlayableCharacter : ICollisionActor
     {
+        // the constants are defined in the .sf file
         const string ANIMATION_WALK_BACKWARD = "walk-backward";
         const string ANIMATION_WALK_FORWARD  = "walk-forward";
         const string ANIMATION_WALK_RIGHT    = "walk-right";
@@ -20,15 +21,16 @@ namespace MysteryIsland
         const string ANIMATION_DEFAULT       = "look-backward";
 
         private AnimatedSprite sprite;
+        private RectangleF boundingRectangle;
         private Vector2 _previousPosition = new Vector2(100, 100);
         private Vector2 _position = new Vector2(100, 100);
         public Vector2 Position => _position;
 
         public IShapeF Bounds => new RectangleF(
-                 x: _position.X, 
-                 y: _position.Y, 
-             width: sprite.GetBoundingRectangle(new Transform2()).Width, 
-            height: sprite.GetBoundingRectangle(new Transform2()).Height);
+                 x: _position.X - boundingRectangle.Width / 2,
+                 y: _position.Y - boundingRectangle.Height / 2,
+             width: boundingRectangle.Width,
+            height: boundingRectangle.Height);
 
         private string animation = ANIMATION_DEFAULT;
 
@@ -36,6 +38,7 @@ namespace MysteryIsland
         {
             var spriteSheet = content.Load<SpriteSheet>("characters/char1-sprite.sf", new JsonContentLoader());
             sprite = new AnimatedSprite(spriteSheet);
+            boundingRectangle = sprite.GetBoundingRectangle(new Transform2());
             sprite.Play("walk-backward");
         }
 
