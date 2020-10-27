@@ -78,9 +78,9 @@ namespace MysteryIsland
 
         protected override void Update(GameTime gameTime)
         {
-            var keyboard = KeyboardExtended.GetState();
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
-            if (keyboard.IsAltDown() && keyboard.IsKeyDown(Keys.Enter)) graphics.ToggleFullScreen();
+            KeyboardHelper.Update();
+            if (KeyboardHelper.WasKeyJustPressed(Keys.Escape)) Exit();
+            if (KeyboardHelper.State.IsAltDown() && KeyboardHelper.WasKeyJustPressed(Keys.Enter)) graphics.ToggleFullScreen();
 
             character.Update(gameTime);
             

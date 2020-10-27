@@ -29,8 +29,7 @@ namespace MysteryIsland
 
         public void Update(PlayableCharacter character, GameTime gameTime)
         {
-            var keyboard = KeyboardExtended.GetState();
-            if (keyboard.IsKeyDown(Keys.O)) ToggleVisibility(); // also check against the previous state
+            if (KeyboardHelper.WasKeyJustPressed(Keys.O)) ToggleVisibility();
 
             if (isVisible is false) return;
 
