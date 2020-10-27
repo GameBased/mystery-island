@@ -29,6 +29,13 @@
 /processorParam:TextureFormat=Color
 /build:characters/macks-spritesheet.png
 
+#begin fonts/Arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/Arial.spritefont
+
 #begin maps/exp.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
