@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
 using MonoGame.Extended.Content;
-using MonoGame.Extended.Input;
 using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
 
@@ -47,7 +46,7 @@ namespace MysteryIsland
         {
             var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             var walkSpeed = deltaSeconds * 128;
-            var keyboard = KeyboardExtended.GetState();
+            var keyboard = KeyboardHelper.State;
             animation = animation.Replace("walk", "look");
             previousPosition = Position;
 
