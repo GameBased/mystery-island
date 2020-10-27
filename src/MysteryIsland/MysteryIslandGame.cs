@@ -47,16 +47,18 @@ namespace MysteryIsland
             // Initialize logic goes before the base.Initialize
             graphics.PreferredBackBufferWidth = WIDTH;
             graphics.PreferredBackBufferHeight = HEIGHT;
-
             graphics.ApplyChanges();
 
+            Window.Title = "Mystery Island";
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
+            debugOverlay.LoadContent(Content);
+
             // Load the map
             map = Content.Load<TiledMap>("maps/exp");
             // Create the map renderer
@@ -106,7 +108,7 @@ namespace MysteryIsland
 
             // base.Draw(gameTime);
 
-            debugOverlay.Draw(SpriteBatch, camera);
+            debugOverlay.Draw(SpriteBatch, camera, gameTime);
 
             // End the sprite batch
             SpriteBatch.End();            
