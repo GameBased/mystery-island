@@ -14,25 +14,36 @@ namespace MysteryIsland
         const int PAN_BOUNDARY = 100;
 
         public Vector2 Position => camera.Position;
-        public Rectangle Viewport { get; }
-        public Rectangle ViewportPanBounds { get; } // the viewport bounds within which the camera shouldn't pan
+        public Rectangle VirtualBounds { get; private set; }
+        public Rectangle PanBounds { get; private set; } // the viewport bounds within which the camera shouldn't pan
 
         private readonly OrthographicCamera camera;
-        public Camera(ViewportAdapter adapter, Rectangle viewport)
+        private readonly ViewportAdapter adapter;
+        public Camera(ViewportAdapter adapter)
         {
             this.camera = new OrthographicCamera(adapter);
-            Viewport = viewport;
-            ViewportPanBounds = new Rectangle(
-                     x: viewport.X + PAN_BOUNDARY,
-                     y: viewport.Y + PAN_BOUNDARY,
-                 width: viewport.Width - PAN_BOUNDARY * 2,
-                height: viewport.Height - PAN_BOUNDARY * 2);
+            this.adapter = adapter;
+            OnViewportResize();
+        }
+
+        public void OnViewportResize()
+        {
+            VirtualBounds = new Rectangle(0, 0, adapter.VirtualWidth, adapter.VirtualHeight);
+            PanBounds = new RectangleF(
+                     x: VirtualBounds.X + PAN_BOUNDARY ,
+                     y: VirtualBounds.Y + PAN_BOUNDARY ,
+                 width: VirtualBounds.Width - PAN_BOUNDARY * 2,
+                height: VirtualBounds.Height - PAN_BOUNDARY * 2).ToRectangle();
         }
 
         public void Update(TiledMap map, PlayableCharacter character)
         {
-            var characterViewportPosition = camera.WorldToScreen(character.Position);
-            if (ViewportPanBounds.Contains(characterViewportPosition)) return;
+            // translate the panbounds and virtual bounds to the camera's current position
+            var panbounds = new Rectangle(camera.Position.ToPoint() + PanBounds.Location, PanBounds.Size);
+            var virtualbounds = new Rectangle(camera.Position.ToPoint() + VirtualBounds.Location, VirtualBounds.Size);
+
+            var characterViewportPosition = character.Position;
+            if (panbounds.Contains(characterViewportPosition)) return;
 
             var panOffset = new Vector2(
                     x: getX(),
@@ -40,8 +51,8 @@ namespace MysteryIsland
                 );
 
             var newPos = new Vector2(
-                    x: MathHelper.Clamp(camera.Position.X + panOffset.X, 0, map.WidthInPixels - Viewport.Width),
-                    y: MathHelper.Clamp(camera.Position.Y + panOffset.Y, 0, map.HeightInPixels - Viewport.Height)
+                    x: MathHelper.Clamp(camera.Position.X + panOffset.X, 0, map.WidthInPixels - virtualbounds.Width),
+                    y: MathHelper.Clamp(camera.Position.Y + panOffset.Y, 0, map.HeightInPixels - virtualbounds.Height)
                 );
 
             camera.Position = newPos;
@@ -51,10 +62,10 @@ namespace MysteryIsland
             float getX()
             {
                 // move to the right
-                if (characterViewportPosition.X > ViewportPanBounds.Right) return characterViewportPosition.X - ViewportPanBounds.Right;
+                if (characterViewportPosition.X > panbounds.Right) return characterViewportPosition.X - panbounds.Right;
 
                 // move to the left
-                else if (characterViewportPosition.X < ViewportPanBounds.Left) return characterViewportPosition.X - ViewportPanBounds.Left;
+                else if (characterViewportPosition.X < panbounds.Left) return characterViewportPosition.X - panbounds.Left;
 
                 // don't move
                 else return 0;
@@ -63,10 +74,10 @@ namespace MysteryIsland
             float getY()
             {
                 // move towards the bottom
-                if (characterViewportPosition.Y > ViewportPanBounds.Bottom) return characterViewportPosition.Y - ViewportPanBounds.Bottom;
+                if (characterViewportPosition.Y > panbounds.Bottom) return characterViewportPosition.Y - panbounds.Bottom;
 
                 // move towards the top
-                else if (characterViewportPosition.Y < ViewportPanBounds.Top) return characterViewportPosition.Y - ViewportPanBounds.Top;
+                else if (characterViewportPosition.Y < panbounds.Top) return characterViewportPosition.Y - panbounds.Top;
 
                 // don't move
                 else return 0;

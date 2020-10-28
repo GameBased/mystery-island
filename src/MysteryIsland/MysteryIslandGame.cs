@@ -62,7 +62,7 @@ namespace MysteryIsland
             mapRenderer = new TiledMapRenderer(GraphicsDevice, map);
             // If you decided to use the camere, then you could also initialize it here like this
             var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, WIDTH, HEIGHT);
-            camera = new Camera(viewportadapter, GraphicsDevice.Viewport.Bounds);
+            camera = new Camera(viewportadapter);
 
             character.LoadContent(Content);
             collisionComponent = new CollisionComponent(new RectangleF(0, 0, map.WidthInPixels, map.HeightInPixels));
@@ -79,7 +79,7 @@ namespace MysteryIsland
         {
             KeyboardHelper.Update();
             if (KeyboardHelper.WasKeyJustPressed(Keys.Escape)) Exit();
-            if (KeyboardHelper.State.IsAltDown() && KeyboardHelper.WasKeyJustPressed(Keys.Enter)) graphics.ToggleFullScreen();
+            if (KeyboardHelper.State.IsAltDown() && KeyboardHelper.WasKeyJustPressed(Keys.Enter)) ToggleFullScreen();
 
             character.Update(gameTime);
             
@@ -111,6 +111,18 @@ namespace MysteryIsland
 
             // End the sprite batch
             SpriteBatch.End();            
+        }
+
+        private void ToggleFullScreen()
+        {
+            var width = graphics.IsFullScreen ? WIDTH : GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            var height = graphics.IsFullScreen ? HEIGHT : GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+
+            graphics.PreferredBackBufferWidth = width;
+            graphics.PreferredBackBufferHeight = height;
+
+            graphics.ToggleFullScreen();
+            camera.OnViewportResize();
         }
     }
 }
