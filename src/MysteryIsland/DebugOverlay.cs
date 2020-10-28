@@ -14,7 +14,7 @@ namespace MysteryIsland
 
         private PlayableCharacter player;
         private TiledMap map;
-        FramesPerSecondCounter counter = new FramesPerSecondCounter();
+        private FramesPerSecondCounter counter = new FramesPerSecondCounter();
 
         private void ToggleVisibility()
         {
@@ -52,7 +52,7 @@ namespace MysteryIsland
             if (isVisible is false) return;
 
             // Draw the viewport PAN_BOUNDARY
-            spriteBatch.DrawRectangle(camera.ScreenToWorld(camera.ViewportPanBounds), Color.White);
+            spriteBatch.DrawRectangle(camera.ScreenToWorld(camera.PanBounds), Color.White);
 
             // Draw the player bounds
             if(player.Bounds is RectangleF playerBounds)
@@ -62,7 +62,9 @@ namespace MysteryIsland
 
             // Draw the player position
             spriteBatch.DrawPoint(player.Position, Color.DarkRed, size: 6);
-            spriteBatch.DrawString(font, $"Pos: ({player.Position.X:F1}, {player.Position.Y:F1})", camera.ScreenToWorld(new Vector2(10, 28)), Color.White);
+            spriteBatch.DrawString(font, $"Player world pos: ({player.Position.X:F1}, {player.Position.Y:F1})", camera.ScreenToWorld(new Vector2(10, 30)), Color.White);
+            var playerScreenPosition = camera.WorldToScreen(player.Position);
+            spriteBatch.DrawString(font, $"Player screen pos: ({playerScreenPosition.X:F1}, {playerScreenPosition.Y:F1})", camera.ScreenToWorld(new Vector2(10, 50)), Color.White);
 
             counter.Draw(gameTime);
             spriteBatch.DrawString(font, $"FPS: {counter.FramesPerSecond}", camera.ScreenToWorld(new Vector2(10, 10)), Color.White);
