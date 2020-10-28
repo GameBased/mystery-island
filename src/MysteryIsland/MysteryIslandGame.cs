@@ -6,7 +6,6 @@ using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended.ViewportAdapters;
-using MonoGame.Extended.Input;
 using MonoGame.Extended.Collisions;
 
 using MysteryIsland.Collisions;
@@ -57,8 +56,6 @@ namespace MysteryIsland
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            debugOverlay.LoadContent(Content);
-
             // Load the map
             map = Content.Load<TiledMap>("maps/exp");
             // Create the map renderer
@@ -74,6 +71,8 @@ namespace MysteryIsland
             foreach (var collidableTile in layer.Tiles.Where(t => !t.IsBlank).Select(t => new TileActor(t, tileWIdth: map.TileWidth, map.TileHeight))) collisionComponent.Insert(collidableTile);
             collisionComponent.Insert(character);
             collisionComponent.Initialize();
+
+            debugOverlay.LoadContent(Content, map);
         }
 
         protected override void Update(GameTime gameTime)
