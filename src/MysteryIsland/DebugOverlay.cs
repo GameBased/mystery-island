@@ -3,28 +3,38 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
-using MonoGame.Extended.Input;
+using MonoGame.Extended.Tiled;
 using System.Diagnostics;
 
 namespace MysteryIsland
 {
-    public class DebugOverlay // TODO: this should make the collisions layer invisible when disabled
+    public class DebugOverlay
     {
         private bool isVisible = Debugger.IsAttached;
 
         private PlayableCharacter player;
+        private TiledMap map;
         FramesPerSecondCounter counter = new FramesPerSecondCounter();
 
         private void ToggleVisibility()
         {
             isVisible = !isVisible;
+            UpdateCollisionLayerVisibility();
+        }
+        private void UpdateCollisionLayerVisibility()
+        {
+            if (map != null)
+            {
+                map.GetLayer("collision").IsVisible = isVisible;
+            }
         }
 
         private SpriteFont font;
-        public void LoadContent(ContentManager content)
+        public void LoadContent(ContentManager content, TiledMap map)
         {
             font = content.Load<SpriteFont>("fonts/Arial");
-
+            this.map = map;
+            UpdateCollisionLayerVisibility();
         }
 
         public void Update(PlayableCharacter character, GameTime gameTime)
