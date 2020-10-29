@@ -11,6 +11,8 @@ using MonoGame.Extended.Collisions;
 using MysteryIsland.Collisions;
 
 using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace MysteryIsland
 {
@@ -122,7 +124,6 @@ namespace MysteryIsland
             graphics.PreferredBackBufferHeight = height;
 
             graphics.ToggleFullScreen();
-            camera.OnViewportResize();
         }
     }
 }

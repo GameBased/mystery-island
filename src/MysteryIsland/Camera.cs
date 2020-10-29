@@ -23,15 +23,11 @@ namespace MysteryIsland
         {
             this.camera = new OrthographicCamera(adapter);
             this.adapter = adapter;
-            OnViewportResize();
-        }
 
-        public void OnViewportResize()
-        {
             VirtualBounds = new Rectangle(0, 0, adapter.VirtualWidth, adapter.VirtualHeight);
             PanBounds = new RectangleF(
-                     x: VirtualBounds.X + PAN_BOUNDARY ,
-                     y: VirtualBounds.Y + PAN_BOUNDARY ,
+                     x: VirtualBounds.X + PAN_BOUNDARY,
+                     y: VirtualBounds.Y + PAN_BOUNDARY,
                  width: VirtualBounds.Width - PAN_BOUNDARY * 2,
                 height: VirtualBounds.Height - PAN_BOUNDARY * 2).ToRectangle();
         }
