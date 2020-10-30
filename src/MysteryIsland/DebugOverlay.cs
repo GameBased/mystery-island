@@ -12,8 +12,7 @@ namespace MysteryIsland
     {
         private bool isVisible = Debugger.IsAttached;
 
-        private PlayableCharacter player;
-        private TiledMap map;
+        private World world;
         private FramesPerSecondCounter counter = new FramesPerSecondCounter();
 
         private void ToggleVisibility()
@@ -23,33 +22,31 @@ namespace MysteryIsland
         }
         private void UpdateCollisionLayerVisibility()
         {
-            if (map != null)
-            {
-                map.GetLayer("collision").IsVisible = isVisible;
-            }
+            world.Map.GetLayer("collision").IsVisible = isVisible;
         }
 
         private SpriteFont font;
-        public void LoadContent(ContentManager content, TiledMap map)
+        public void LoadContent(ContentManager content, World world)
         {
+            this.world = world;
             font = content.Load<SpriteFont>("fonts/Arial");
-            this.map = map;
             UpdateCollisionLayerVisibility();
         }
 
-        public void Update(PlayableCharacter character, GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             if (KeyboardHelper.WasKeyJustPressed(Keys.O)) ToggleVisibility();
 
             if (isVisible is false) return;
 
-            player = character;
             counter.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Camera camera, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (isVisible is false) return;
+            var player = world.Character;
+            var camera = world.Camera;
 
             // Draw the viewport PAN_BOUNDARY
             spriteBatch.DrawRectangle(camera.ScreenToWorld(camera.PanBounds), Color.White);
