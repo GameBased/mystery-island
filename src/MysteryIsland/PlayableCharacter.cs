@@ -26,10 +26,10 @@ namespace MysteryIsland
         public Vector2 Position => _position;
 
         public IShapeF Bounds => new RectangleF(
-                 x: _position.X - boundingRectangle.Width / 2,
-                 y: _position.Y - boundingRectangle.Height / 2,
-             width: boundingRectangle.Width,
-            height: boundingRectangle.Height);
+                 x: _position.X - 10,
+                 y: _position.Y + 4,
+             width: 22,
+            height: 18);
 
         private string animation = ANIMATION_DEFAULT;
 
