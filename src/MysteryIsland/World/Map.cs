@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -32,10 +32,10 @@ namespace MysteryIsland.World
 
             IEnumerable<StaticActor> getMapBounds()
             {
-                yield return new StaticActor(new RectangleF(0,                                  0, map.WidthInPixels,                .1f));
-                yield return new StaticActor(new RectangleF(0,                                  0,               .1f, map.HeightInPixels));
-                yield return new StaticActor(new RectangleF(map.WidthInPixels,                  0,               .1f, map.HeightInPixels));
-                yield return new StaticActor(new RectangleF(0,                 map.HeightInPixels, map.WidthInPixels,                .1f));
+                yield return new StaticActor(new RectangleF(0,                                         0, map.WidthInPixels,                .1f));
+                yield return new StaticActor(new RectangleF(0,                                         0,               .1f,  map.HeightInPixels));
+                yield return new StaticActor(new RectangleF(map.WidthInPixels - 1,                     0,               .1f,  map.HeightInPixels));
+                yield return new StaticActor(new RectangleF(0,                     map.HeightInPixels - 1, map.WidthInPixels,                1f));
 
             }
         }
