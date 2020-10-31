@@ -3,16 +3,17 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended.ViewportAdapters;
+using MysteryIsland.World;
 
 namespace MysteryIsland
 {
     public class MysteryIslandGame : Game
     {
-        private GraphicsDeviceManager graphics;
+        private readonly GraphicsDeviceManager graphics;
         public SpriteBatch SpriteBatch { get; private set; }
 
-        private DebugOverlay debugOverlay = new DebugOverlay();
-        private World world = new World();
+        private readonly DebugOverlay debugOverlay = new DebugOverlay();
+        private readonly GameWorld world = new GameWorld();
 
         const int WIDTH = 960;
         const int HEIGHT = 540;

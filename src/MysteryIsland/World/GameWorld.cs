@@ -3,23 +3,19 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended.ViewportAdapters;
-using MysteryIsland.Collisions;
-using System.Linq;
 
-namespace MysteryIsland
+namespace MysteryIsland.World
 {
-    public class World
+    public class GameWorld
     {
 
         public Camera Camera { get; private set; }
-        public TiledMap Map { get; private set; }
+        public Map Map { get; private set; } = new Map();
         public PlayableCharacter Character { get; private set; } = new PlayableCharacter();
 
         private CollisionComponent collisionComponent;
-        private TiledMapRenderer mapRenderer;
+        
 
         private SpriteBatch SpriteBatch { get; set; }
 
@@ -27,18 +23,14 @@ namespace MysteryIsland
         {
             SpriteBatch = spriteBatch;
 
-            // Load the map
-            Map = content.Load<TiledMap>("maps/exp");
-            // Create the map renderer
-            mapRenderer = new TiledMapRenderer(graphicsDevice, Map);
+            Map.LoadContent(content, graphicsDevice);
 
             Camera = new Camera(viewportAdapter);
 
             Character.LoadContent(content);
             collisionComponent = new CollisionComponent(new RectangleF(0, 0, Map.WidthInPixels, Map.HeightInPixels));
-            var layer = Map.GetLayer<TiledMapTileLayer>("collision");
 
-            foreach (var collidableTile in layer.Tiles.Where(t => !t.IsBlank).Select(t => new TileActor(t, tileWIdth: Map.TileWidth, Map.TileHeight))) collisionComponent.Insert(collidableTile);
+            foreach (var collidableTile in Map.CollidableTiles) collisionComponent.Insert(collidableTile);
             collisionComponent.Insert(Character);
             collisionComponent.Initialize();
         }
@@ -47,8 +39,7 @@ namespace MysteryIsland
         {
             Character.Update(gameTime);
 
-            // Update the map renderer
-            mapRenderer.Update(gameTime);
+            Map.Update(gameTime);
             Camera.Update(Map, Character);
 
             collisionComponent.Update(gameTime);
@@ -56,7 +47,7 @@ namespace MysteryIsland
 
         public void Draw()
         {
-            mapRenderer.Draw(Camera.GetViewMatrix());
+            Map.Draw(Camera);
             Character.Draw(SpriteBatch);
         }
     }

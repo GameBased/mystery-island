@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
-using MonoGame.Extended.Tiled;
+using MysteryIsland.World;
 using System.Diagnostics;
 
 namespace MysteryIsland
@@ -12,25 +12,21 @@ namespace MysteryIsland
     {
         private bool isVisible = Debugger.IsAttached;
 
-        private World world;
+        private GameWorld world;
         private FramesPerSecondCounter counter = new FramesPerSecondCounter();
 
         private void ToggleVisibility()
         {
             isVisible = !isVisible;
-            UpdateCollisionLayerVisibility();
-        }
-        private void UpdateCollisionLayerVisibility()
-        {
-            world.Map.GetLayer("collision").IsVisible = isVisible;
+            world.Map.SetCollisionLayerVisibility(isVisible);
         }
 
         private SpriteFont font;
-        public void LoadContent(ContentManager content, World world)
+        public void LoadContent(ContentManager content, GameWorld world)
         {
             this.world = world;
             font = content.Load<SpriteFont>("fonts/Arial");
-            UpdateCollisionLayerVisibility();
+            world.Map.SetCollisionLayerVisibility(isVisible);
         }
 
         public void Update(GameTime gameTime)

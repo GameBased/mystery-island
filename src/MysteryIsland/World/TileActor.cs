@@ -3,9 +3,9 @@ using MonoGame.Extended.Collisions;
 using MonoGame.Extended.Tiled;
 using System;
 
-namespace MysteryIsland.Collisions
+namespace MysteryIsland.World
 {
-    class TileActor : ICollisionActor
+    public class TileActor : ICollisionActor
     {
         public TileActor(TiledMapTile tile, int tileWIdth, int tileHeight)
         {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
-using MonoGame.Extended.Tiled;
 using MonoGame.Extended.ViewportAdapters;
+using MysteryIsland.World;
 
 namespace MysteryIsland
 {
@@ -32,7 +32,7 @@ namespace MysteryIsland
                 height: VirtualBounds.Height - PAN_BOUNDARY * 2).ToRectangle();
         }
 
-        public void Update(TiledMap map, PlayableCharacter character)
+        public void Update(Map map, PlayableCharacter character)
         {
             // translate the panbounds and virtual bounds to the camera's current position
             var panbounds = new Rectangle(camera.Position.ToPoint() + PanBounds.Location, PanBounds.Size);
