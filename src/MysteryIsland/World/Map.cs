@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
@@ -19,7 +19,7 @@ namespace MysteryIsland.World
         public int WidthInPixels => map?.WidthInPixels ?? 0;
         public int HeightInPixels => map?.HeightInPixels ?? 0;
 
-        private IEnumerable<TiledMapTileLayer> CollisionLayers => map.Layers.Where(l => l.Properties.ContainsKey("Type") && l.Properties["Type"] is "Collision").OfType<TiledMapTileLayer>();
+        private IEnumerable<TiledMapTileLayer> CollisionLayers => map.TileLayers.Where(l => l.Properties.ContainsKey("Type") && l.Properties["Type"] is "Collision");
         public IEnumerable<ICollisionActor> GetCollisionActors()
         {
             var tiles = CollisionLayers
@@ -59,9 +59,34 @@ namespace MysteryIsland.World
             mapRenderer.Update(gameTime);
         }
 
-        public void Draw(Camera camera)
+        public void DrawLayersBelowCharacter(Camera camera)
         {
-            mapRenderer.Draw(camera.GetViewMatrix());
+            Draw(camera, beforePlayer: true);
+        }
+
+        public void DrawLayersAboveCharacter(Camera camera)
+        {
+            Draw(camera, beforePlayer: false);
+        }
+
+        private void Draw(Camera camera, bool beforePlayer = true)
+        {
+            const string RENDER_ORDER_KEY = "RenderOrder";
+            const string RENDER_ORDER_BEFORE_CHARACTERS = "BeforeCharacters";
+            const string RENDER_ORDER_AFTER_CHARACTERS = "AfterCharacters";
+
+            var layersToRender = map.TileLayers.Where(l => shouldRender(l));
+            foreach (var layer in layersToRender) mapRenderer.Draw(layer, camera.GetViewMatrix());
+
+            bool shouldRender(TiledMapLayer layer)
+            {
+                if (layer.IsVisible is false) return false;
+                if (!layer.Properties.ContainsKey(RENDER_ORDER_KEY)) return beforePlayer;
+                var order = layer.Properties[RENDER_ORDER_KEY];
+
+                if (beforePlayer) return order is RENDER_ORDER_BEFORE_CHARACTERS;
+                else return order is RENDER_ORDER_AFTER_CHARACTERS;
+            }
         }
     }
 }

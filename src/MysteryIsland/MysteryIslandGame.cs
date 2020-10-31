@@ -62,18 +62,12 @@ namespace MysteryIsland
         {
             GraphicsDevice.Clear(Color.Black);
 
-            // Transform matrix is only needed if you have a camera
-            // Setting the sampler state to `new SamplerState { Filter = TextureFilter.Point }` will reduce gaps and odd artifacts when using animated tiles
+            if(world.IsActive) world.Draw();
+
+            // TODO: don't use a transformation matrix here
             SpriteBatch.Begin(transformMatrix: world.Camera.GetViewMatrix(), samplerState: new SamplerState { Filter = TextureFilter.Point });
-
-            world.Draw();
-
-            // base.Draw(gameTime);
-
             debugOverlay.Draw(SpriteBatch, gameTime);
-
-            // End the sprite batch
-            SpriteBatch.End();            
+            SpriteBatch.End();
         }
 
         private void ToggleFullScreen()

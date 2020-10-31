@@ -11,11 +11,12 @@ namespace MysteryIsland.World
     {
 
         public Camera Camera { get; private set; }
-        public Map Map { get; private set; } = new Map();
-        public PlayableCharacter Character { get; private set; } = new PlayableCharacter();
+        public Map Map { get; } = new Map();
+        public PlayableCharacter Character { get; } = new PlayableCharacter();
 
         private CollisionComponent collisionComponent;
-        
+
+        public bool IsActive => true;
 
         private SpriteBatch SpriteBatch { get; set; }
 
@@ -47,8 +48,13 @@ namespace MysteryIsland.World
 
         public void Draw()
         {
-            Map.Draw(Camera);
+            Map.DrawLayersBelowCharacter(Camera);
+
+            SpriteBatch.Begin(transformMatrix: Camera.GetViewMatrix(), samplerState: new SamplerState { Filter = TextureFilter.Point });
             Character.Draw(SpriteBatch);
+            SpriteBatch.End();
+            
+            Map.DrawLayersAboveCharacter(Camera);
         }
     }
 }
