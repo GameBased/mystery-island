@@ -30,7 +30,7 @@ namespace MysteryIsland.World
             Character.LoadContent(content);
             collisionComponent = new CollisionComponent(new RectangleF(0, 0, Map.WidthInPixels, Map.HeightInPixels));
 
-            foreach (var collidableTile in Map.CollidableTiles) collisionComponent.Insert(collidableTile);
+            foreach (var collidableTile in Map.GetCollisionActors()) collisionComponent.Insert(collidableTile);
             collisionComponent.Insert(Character);
             collisionComponent.Initialize();
         }

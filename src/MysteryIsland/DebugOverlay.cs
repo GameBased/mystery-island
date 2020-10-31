@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MysteryIsland.World;
 using System.Diagnostics;
+using System.Linq;
 
 namespace MysteryIsland
 {
@@ -52,6 +53,15 @@ namespace MysteryIsland
             {
                 spriteBatch.DrawRectangle(playerBounds, Color.White);
             }
+
+            foreach(var actor in world.Map.GetCollisionActors())
+            {
+                if(actor.Bounds is RectangleF rect)
+                {
+                    spriteBatch.DrawRectangle(rect, Color.Red);
+                }
+            }
+            
 
             // Draw the player position
             spriteBatch.DrawPoint(player.Position, Color.DarkRed, size: 6);

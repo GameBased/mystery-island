@@ -1,8 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
+using MonoGame.Extended.Collisions;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
+using MysteryIsland.World.Collision;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,10 +20,25 @@ namespace MysteryIsland.World
         public int HeightInPixels => map?.HeightInPixels ?? 0;
 
         private IEnumerable<TiledMapTileLayer> CollisionLayers => map.Layers.Where(l => l.Properties.ContainsKey("Type") && l.Properties["Type"] is "Collision").OfType<TiledMapTileLayer>();
-        public IEnumerable<TileActor> CollidableTiles => CollisionLayers
-            .SelectMany(l => l.Tiles)
-            .Where(t => !t.IsBlank)
-            .Select(t => new TileActor(t, tileWIdth: map.TileWidth, map.TileHeight));
+        public IEnumerable<ICollisionActor> GetCollisionActors()
+        {
+            var tiles = CollisionLayers
+                .SelectMany(l => l.Tiles)
+                .Where(t => !t.IsBlank)
+                .Select(t => new TileActor(t, tileWidth: map.TileWidth, map.TileHeight));
+            var mapBounds = getMapBounds();
+
+            return tiles.Concat(mapBounds);
+
+            IEnumerable<StaticActor> getMapBounds()
+            {
+                yield return new StaticActor(new RectangleF(0,                                  0, map.WidthInPixels,                .1f));
+                yield return new StaticActor(new RectangleF(0,                                  0,               .1f, map.HeightInPixels));
+                yield return new StaticActor(new RectangleF(map.WidthInPixels,                  0,               .1f, map.HeightInPixels));
+                yield return new StaticActor(new RectangleF(0,                 map.HeightInPixels, map.WidthInPixels,                .1f));
+
+            }
+        }
 
         public void SetCollisionLayerVisibility(bool visibility)
         {
