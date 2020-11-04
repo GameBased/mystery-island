@@ -29,7 +29,7 @@ Task("build")
 });
 
 Task("publish")
-    .Does(() =>
+    .Does(async () =>
 {
     var runtimes = new string[]{
         "win-x64", "linux-x64", "osx-x64"
@@ -49,10 +49,11 @@ Task("publish")
 
         StartProcess("zip", new ProcessSettings {
             Arguments = new ProcessArgumentBuilder()
-                .Append($"-r {dir}")
+                .Append($"-r")
                 .Append($"{ARTIFACTS}/mystery-island-{runtime}.zip")
                 .Append(dir)
         });
+        await System.Threading.Tasks.Task.Delay(2_000);
     }
 });
 
@@ -63,9 +64,6 @@ Task("publish")
 
 Task("Default")
     .IsDependentOn("build");
-
-Task("azure-pipelines")
-    .IsDependentOn("publish");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
