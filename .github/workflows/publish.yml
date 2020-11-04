@@ -1,0 +1,45 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Install fonts
+      run: |
+        sudo add-apt-repository ppa:justinabrahms/ttf-cascadia-code
+        sudo apt-get update
+        sudo apt-get install ttf-cascadia-code
+    - name: Install tools
+      run: dotnet tool restore
+    - name: Build artifacts
+      run: dotnet cake --target=publish
+      
+#     - name: Create Release
+#       id: create_release
+#       uses: actions/create-release@v1
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       with:
+#         tag_name: ${{ github.ref }}
+#         release_name: ${{ github.ref }}
+#         draft: false
+#         prerelease: false
+
+    - name: Upload release artifacts
+      uses: alexellis/upload-assets@0.2.3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        asset_paths: '["./artifacts/*.zip"]'
