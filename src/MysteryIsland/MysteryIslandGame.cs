@@ -64,9 +64,14 @@ namespace MysteryIsland
 
             if(world.IsActive) world.Draw();
 
-            // TODO: don't use a transformation matrix here
+            // TODO: draw this from within the world... or something of that sort
+            // to get rid of this extra spritebatch.Begin
             SpriteBatch.Begin(transformMatrix: world.Camera.GetViewMatrix(), samplerState: new SamplerState { Filter = TextureFilter.Point });
-            debugOverlay.Draw(SpriteBatch, gameTime);
+            debugOverlay.DrawOnMap(SpriteBatch);
+            SpriteBatch.End();
+
+            SpriteBatch.Begin();
+            debugOverlay.DrawOnScreen(SpriteBatch, gameTime);
             SpriteBatch.End();
         }
 

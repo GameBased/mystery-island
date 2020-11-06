@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MysteryIsland.World;
 using System.Diagnostics;
-using System.Linq;
 
 namespace MysteryIsland
 {
@@ -26,7 +25,7 @@ namespace MysteryIsland
         public void LoadContent(ContentManager content, GameWorld world)
         {
             this.world = world;
-            font = content.Load<SpriteFont>("fonts/Arial");
+            font = content.Load<SpriteFont>("fonts/Cascadia");
             world.Map.SetCollisionLayerVisibility(isVisible);
         }
 
@@ -39,38 +38,45 @@ namespace MysteryIsland
             counter.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public void DrawOnMap(SpriteBatch spriteBatch)
         {
             if (isVisible is false) return;
             var player = world.Character;
-            var camera = world.Camera;
-
-            // Draw the viewport PAN_BOUNDARY
-            spriteBatch.DrawRectangle(camera.ScreenToWorld(camera.PanBounds), Color.White);
-
+            
             // Draw the player bounds
             if(player.Bounds is RectangleF playerBounds)
             {
                 spriteBatch.DrawRectangle(playerBounds, Color.White);
             }
 
-            foreach(var actor in world.Map.GetCollisionActors())
+            // Draw the player position
+            spriteBatch.DrawPoint(player.Position, Color.DarkRed, size: 6);
+
+            foreach (var actor in world.Map.GetCollisionActors())
             {
                 if(actor.Bounds is RectangleF rect)
                 {
                     spriteBatch.DrawRectangle(rect, Color.Red);
                 }
             }
-            
+        }
 
-            // Draw the player position
-            spriteBatch.DrawPoint(player.Position, Color.DarkRed, size: 6);
-            spriteBatch.DrawString(font, $"Player world pos: ({player.Position.X:F1}, {player.Position.Y:F1})", camera.ScreenToWorld(new Vector2(10, 30)), Color.White);
+        public void DrawOnScreen(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            if (isVisible is false) return;
+            var player = world.Character;
+            var camera = world.Camera;
+
             var playerScreenPosition = camera.WorldToScreen(player.Position);
-            spriteBatch.DrawString(font, $"Player screen pos: ({playerScreenPosition.X:F1}, {playerScreenPosition.Y:F1})", camera.ScreenToWorld(new Vector2(10, 50)), Color.White);
+
+            // Draw the viewport PAN_BOUNDARY
+            spriteBatch.DrawRectangle(camera.PanBounds, Color.White);
 
             counter.Draw(gameTime);
-            spriteBatch.DrawString(font, $"FPS: {counter.FramesPerSecond}", camera.ScreenToWorld(new Vector2(10, 10)), Color.White);
+            spriteBatch.DrawString(font, $"FPS: {counter.FramesPerSecond}", new Vector2(10, 10), Color.White);
+
+            spriteBatch.DrawString(font, $"Player world  pos: ({player.Position.X:F1}, {player.Position.Y:F1})", new Vector2(10, 30), Color.White);
+            spriteBatch.DrawString(font, $"Player screen pos: ({playerScreenPosition.X:F1}, {playerScreenPosition.Y:F1})", new Vector2(10, 50), Color.White);
         }
     }
 }
