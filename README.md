@@ -1,5 +1,7 @@
 # mystery-island
 
+![ci](https://github.com/GameBased/mystery-island/workflows/ci/badge.svg)
+
 
 ## Setting up your development environment
 
