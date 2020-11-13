@@ -36,6 +36,7 @@ Task("publish")
     };
     foreach(var runtime in runtimes)
     {
+        var filename = $"mystery-island-{runtime}.zip";
         var dir = System.IO.Path.Join(ARTIFACTS, runtime);
         DotNetCorePublish(CSPROJ,
             new DotNetCorePublishSettings
@@ -50,7 +51,7 @@ Task("publish")
         StartProcess("zip", new ProcessSettings {
             Arguments = new ProcessArgumentBuilder()
                 .Append($"-r")
-                .Append($"{ARTIFACTS}/mystery-island-{runtime}.zip")
+                .Append($"{ARTIFACTS}/{filename}")
                 .Append(dir)
         });
         await System.Threading.Tasks.Task.Delay(2_000);
