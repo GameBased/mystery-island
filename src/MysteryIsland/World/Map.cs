@@ -48,14 +48,15 @@ namespace MysteryIsland.World
             }
         }
 
-        public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
+        public void LoadContent(string mapfile, ContentManager content, GraphicsDevice graphicsDevice)
         {
-            map = content.Load<TiledMap>("maps/exp");
+            map = content.Load<TiledMap>(mapfile);
             mapRenderer = new TiledMapRenderer(graphicsDevice, map);
         }
 
         public void Update(GameTime gameTime)
         {
+            // TOOD: throw if a map isn't loaded at this point
             mapRenderer.Update(gameTime);
         }
 

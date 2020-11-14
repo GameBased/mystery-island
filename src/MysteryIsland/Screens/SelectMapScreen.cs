@@ -31,7 +31,8 @@ namespace MysteryIsland.Screens
         {
             if (KeyboardHelper.WasKeyJustPressed(Keys.Enter))
             {
-                screenManager.ChangeScreen(ScreenName.GameScreen);
+                // screenManager.ChangeScreen(ScreenName.GameScreen);
+                screenManager.ChangeToGameScreenAndLoadMap($"maps/{maps[currentSelection]}");
             }
             if(KeyboardHelper.WasKeyJustPressed(Keys.Up))
             {

@@ -41,6 +41,12 @@ namespace MysteryIsland.Screens
             currentScreen = screens[screenName] ?? throw new ScreenNotFoundException(screenName);
         }
 
+        public void ChangeToGameScreenAndLoadMap(string mapfile)
+        {
+            currentScreen = screens[ScreenName.GameScreen] ?? throw new ScreenNotFoundException(ScreenName.GameScreen);
+            (currentScreen as GameScreen)?.LoadMap(mapfile);
+        }
+
         public void Update(GameTime gameTime)
         {
             currentScreen.Update(gameTime, this);
