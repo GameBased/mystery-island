@@ -47,7 +47,6 @@ namespace MysteryIsland
         protected override void Update(GameTime gameTime)
         {
             KeyboardHelper.Update();
-            if (KeyboardHelper.WasKeyJustPressed(Keys.Escape)) Exit();
             if (KeyboardHelper.State.IsAltDown() && KeyboardHelper.WasKeyJustPressed(Keys.Enter)) ToggleFullScreen();
 
             screenManager.Update(gameTime);

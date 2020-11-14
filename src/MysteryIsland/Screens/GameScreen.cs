@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.ViewportAdapters;
 using MysteryIsland.World;
 
@@ -21,8 +22,14 @@ namespace MysteryIsland.Screens
             SpriteBatch = spriteBatch;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, IScreenManager screenManager)
         {
+            if (KeyboardHelper.WasKeyJustPressed(Keys.Escape))
+            {
+                screenManager.ChangeScreen(ScreenName.SelectMapScreen);
+                return;
+            }
+
             world.Update(gameTime);
             debugOverlay.Update(gameTime);
         }

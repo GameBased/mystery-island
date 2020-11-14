@@ -8,7 +8,7 @@ namespace MysteryIsland.Screens
     public interface IScreen
     {
         void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, ViewportAdapter adapter);
-        void Update(GameTime gameTime);
+        void Update(GameTime gameTime, IScreenManager screenManager);
         void Draw(GameTime gameTime);
     }
 }
