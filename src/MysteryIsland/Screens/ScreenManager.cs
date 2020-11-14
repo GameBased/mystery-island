@@ -13,10 +13,11 @@ namespace MysteryIsland.Screens
         SelectMapScreen
     }
 
-    public class ScreenManager
+    public class ScreenManager : IScreenManager
     {
         private Dictionary<ScreenName, IScreen> screens = new Dictionary<ScreenName, IScreen>
         {
+            { ScreenName.SelectMapScreen, new SelectMapScreen() },
             { ScreenName.GameScreen, new GameScreen() }
         };
 
@@ -24,7 +25,7 @@ namespace MysteryIsland.Screens
 
         public ScreenManager()
         {
-            currentScreen = screens[ScreenName.GameScreen];
+            currentScreen = screens[ScreenName.SelectMapScreen];
         }
 
         public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, ViewportAdapter adapter)
@@ -42,7 +43,7 @@ namespace MysteryIsland.Screens
 
         public void Update(GameTime gameTime)
         {
-            currentScreen.Update(gameTime);
+            currentScreen.Update(gameTime, this);
         }
 
         public void Draw(GameTime gameTime)
