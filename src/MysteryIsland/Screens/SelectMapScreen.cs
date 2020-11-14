@@ -19,7 +19,8 @@ namespace MysteryIsland.Screens
 
             new MenuItem { Type = MenuItemType.Exit, Name = "Exit" }
         };
-        int currentSelection = 0;
+        int currentSelection = 1;
+        bool canResume = false;
 
         private SpriteFont font;
         private SpriteBatch spriteBatch;
@@ -45,6 +46,7 @@ namespace MysteryIsland.Screens
                         screenManager.ChangeScreen(ScreenName.GameScreen);
                         break;
                     case MenuItemType.NewGame:
+                        canResume = true;
                         screenManager.ChangeToGameScreenAndLoadMap($"maps/{item.Map}");
                         break;
                     case MenuItemType.Exit:
@@ -56,11 +58,14 @@ namespace MysteryIsland.Screens
             }
             if(KeyboardHelper.WasKeyJustPressed(Keys.Up))
             {
-                currentSelection = menuItems.Length - currentSelection - 1;
+                currentSelection = currentSelection - 1;
+                if (currentSelection < 0) currentSelection = menuItems.Length - 1;
+                if (currentSelection is 0 && !canResume) currentSelection = menuItems.Length - 1;
             }
             if (KeyboardHelper.WasKeyJustPressed(Keys.Down))
             {
                 currentSelection = (currentSelection + 1) % menuItems.Length;
+                if (currentSelection is 0 && !canResume) currentSelection++;
             }
         }
 
@@ -71,7 +76,8 @@ namespace MysteryIsland.Screens
             spriteBatch.DrawString(font, "MENU", new Vector2(x: 20, y: 20 * 8), Color.WhiteSmoke);
             for(int i = 0; i < menuItems.Length; i++)
             {
-                var color = i == currentSelection ? Color.HotPink : Color.WhiteSmoke;
+                var color = menuItems[i].Type is MenuItemType.Resume && !canResume ? Color.DimGray : 
+                            i == currentSelection ? Color.HotPink : Color.WhiteSmoke;
                 spriteBatch.DrawString(
                     font, 
                     menuItems[i].Map,
