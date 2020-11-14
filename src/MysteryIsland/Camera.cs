@@ -82,7 +82,9 @@ namespace MysteryIsland
 
         public void LookAt(Vector2 position)
         {
-            camera.LookAt(position);
+            // camera.LookAt(position);
+            camera.Position = position; // this will do for now... 
+                                        // but will be nice to have a proper LookAt() that tries to center a map coordinate on the screen
         }
 
         public Matrix GetViewMatrix() => camera.GetViewMatrix();
