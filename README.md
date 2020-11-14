@@ -14,7 +14,7 @@ Not really playable yet, but you can walk around!
 
 ## Quickstart: running the game from source
 
-Prerequisites: .NET Core SDK 3.1
+Prerequisites: .NET Core SDK 3.1, [Cascadia Code font](https://github.com/microsoft/cascadia-code/releases/latest)
 
 ```bash
 cd src/MysteryIsland
