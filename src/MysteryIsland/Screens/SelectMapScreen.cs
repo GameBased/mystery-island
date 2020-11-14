@@ -17,6 +17,7 @@ namespace MysteryIsland.Screens
             // names of the map *.tmx files in the /Content/maps dir without extensions
             new MenuItem { Type = MenuItemType.NewGame, Name = "exp" },
             new MenuItem { Type = MenuItemType.NewGame, Name = "ortho" },
+            new MenuItem { Type = MenuItemType.NewGame, Name = "beach" },
 
             new MenuItem { Type = MenuItemType.Exit, Name = "Exit" }
         };
@@ -56,7 +57,6 @@ namespace MysteryIsland.Screens
         {
             if (KeyboardHelper.WasKeyJustPressed(Keys.Enter))
             {
-                // screenManager.ChangeScreen(ScreenName.GameScreen);
                 var item = menuItems[currentSelection];
 
                 switch (item.Type)

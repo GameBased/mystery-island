@@ -53,8 +53,6 @@ namespace MysteryIsland
             if (KeyboardHelper.State.IsAltDown() && KeyboardHelper.WasKeyJustPressed(Keys.Enter)) ToggleFullScreen();
 
             screenManager.Update(gameTime);
-
-            
         }
 
         protected override void Draw(GameTime gameTime)

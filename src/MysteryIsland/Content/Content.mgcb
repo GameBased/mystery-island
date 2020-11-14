@@ -36,6 +36,11 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/Cascadia.spritefont
 
+#begin maps/beach.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:maps/beach.tmx
+
 #begin maps/exp.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
