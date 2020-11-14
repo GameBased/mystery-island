@@ -9,6 +9,8 @@ namespace MysteryIsland
 {
     public class MysteryIslandGame : Game
     {
+        public static MysteryIslandGame Instance { get;  private set; }
+
         private readonly GraphicsDeviceManager graphics;
         public SpriteBatch SpriteBatch { get; private set; }
 
@@ -19,6 +21,7 @@ namespace MysteryIsland
 
         public MysteryIslandGame()
         {
+            Instance = this;
             graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
