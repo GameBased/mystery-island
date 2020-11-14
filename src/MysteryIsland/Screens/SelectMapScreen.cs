@@ -3,13 +3,14 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.ViewportAdapters;
+using MonoGame.Extended;
 
 namespace MysteryIsland.Screens
 {
     public class SelectMapScreen : IScreen
     {
         
-        MenuItem[] menuItems = new MenuItem[]
+        MenuItem[] menuItems = new []
         {
             new MenuItem { Type = MenuItemType.Resume, Name = "Resume" },
 
@@ -21,6 +22,24 @@ namespace MysteryIsland.Screens
         };
         int currentSelection = 1;
         bool canResume = false;
+
+        string[] controls = new[]
+        {
+            "MENU CONTROLS",
+            string.Empty,
+            "<UP/DOWN>   - Browse Menu",
+            " <ENTER>    - Make a selection",
+            string.Empty,
+            string.Empty,
+            "IN-GAME CONTROLS",
+            string.Empty,
+            " <UP>       - Move up",
+            " <DOWN>     - Move down",
+            " <LEFT>     - Move left",
+            " <RIGHT>    - Move right",
+            "   O        - Toggle debug overlay",
+            " <ESC>      - Go back to menu"
+        };
 
         private SpriteFont font;
         private SpriteBatch spriteBatch;
@@ -73,7 +92,8 @@ namespace MysteryIsland.Screens
         {
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(font, "MENU", new Vector2(x: 20, y: 20 * 8), Color.WhiteSmoke);
+            spriteBatch.DrawRectangle(new RectangleF(80, 20 * 6, 300, 20 * (menuItems.Length + 6)), Color.DimGray, thickness: 2.2f);
+            spriteBatch.DrawString(font, "MENU", new Vector2(x: 120, y: 20 * 8), Color.WhiteSmoke);
             for(int i = 0; i < menuItems.Length; i++)
             {
                 var color = menuItems[i].Type is MenuItemType.Resume && !canResume ? Color.DimGray : 
@@ -81,8 +101,14 @@ namespace MysteryIsland.Screens
                 spriteBatch.DrawString(
                     font, 
                     menuItems[i].Map,
-                    new Vector2(20, 20 * (i+10)), 
+                    new Vector2(120, 20 * (i+10)), 
                     color);
+            }
+
+            for(int i = 0; i < controls.Length; i++)
+            {
+                var color = Color.DimGray;
+                spriteBatch.DrawString(font, controls[i], new Vector2(520, 20 * (i + 5)), color);
             }
 
             spriteBatch.End();
