@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MonoGame.Extended.ViewportAdapters;
-using MysteryIsland.World;
+using MysteryIsland.Screens;
 
 namespace MysteryIsland
 {
@@ -12,8 +12,7 @@ namespace MysteryIsland
         private readonly GraphicsDeviceManager graphics;
         public SpriteBatch SpriteBatch { get; private set; }
 
-        private readonly DebugOverlay debugOverlay = new DebugOverlay();
-        private readonly GameWorld world = new GameWorld();
+        ScreenManager screenManager = new ScreenManager();
 
         const int WIDTH = 960;
         const int HEIGHT = 540;
@@ -42,9 +41,7 @@ namespace MysteryIsland
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, WIDTH, HEIGHT);
-            world.LoadContent(Content, GraphicsDevice, SpriteBatch, viewportadapter);
-
-            debugOverlay.LoadContent(Content, world);
+            screenManager.LoadContent(Content, GraphicsDevice, SpriteBatch, viewportadapter);
         }
 
         protected override void Update(GameTime gameTime)
@@ -53,26 +50,15 @@ namespace MysteryIsland
             if (KeyboardHelper.WasKeyJustPressed(Keys.Escape)) Exit();
             if (KeyboardHelper.State.IsAltDown() && KeyboardHelper.WasKeyJustPressed(Keys.Enter)) ToggleFullScreen();
 
-            world.Update(gameTime);
-            base.Update(gameTime);
-            debugOverlay.Update(gameTime);
+            screenManager.Update(gameTime);
+
+            
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            if(world.IsActive) world.Draw();
-
-            // TODO: draw this from within the world... or something of that sort
-            // to get rid of this extra spritebatch.Begin
-            SpriteBatch.Begin(transformMatrix: world.Camera.GetViewMatrix(), samplerState: new SamplerState { Filter = TextureFilter.Point });
-            debugOverlay.DrawOnMap(SpriteBatch);
-            SpriteBatch.End();
-
-            SpriteBatch.Begin();
-            debugOverlay.DrawOnScreen(SpriteBatch, gameTime);
-            SpriteBatch.End();
+            screenManager.Draw(gameTime);
         }
 
         private void ToggleFullScreen()
