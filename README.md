@@ -2,14 +2,20 @@
 
 ![ci](https://github.com/GameBased/mystery-island/workflows/ci/badge.svg)
 
+To download the game, download the zip file for your OS (under assets) from [here](https://github.com/GameBased/mystery-island/releases/latest). Not really playable yet.
 
-## Setting up your development environment
 
-* This project targets Monogame.Frameworks.DesktopGL. Make sure you have the ".NET Core cross-platform development" Visual Studio workload installed.
-* Install the MonoGame extension for VS 2019 from the Visual Studio Menu -> Extensions -> Manage Extensions -> Online -> Search for "MonoGame".
-* Install the MCGB editor:
+## Docs index
 
-    ```sh
-    dotnet tool install --global dotnet-mgcb-editor
-    ```
+1. [Creating maps](./docs/creating-maps.md) (non-developer friendly instructions)
+2. [Setting up a development environment](./docs/setting-up-development-environment.md) (for developers)
 
+
+## Quickstart: running the game from source
+
+Prerequisites: .NET Core SDK 3.1
+
+```bash
+cd src/MysteryIsland
+dotnet run
+```
