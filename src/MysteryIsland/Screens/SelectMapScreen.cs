@@ -8,11 +8,16 @@ namespace MysteryIsland.Screens
 {
     public class SelectMapScreen : IScreen
     {
-        // names of the map *.tmx files in the /Content/maps dir without extensions
-        string[] maps = new string[]
+        
+        MenuItem[] menuItems = new MenuItem[]
         {
-            "exp",
-            "ortho"
+            new MenuItem { Type = MenuItemType.Resume, Name = "Resume" },
+
+            // names of the map *.tmx files in the /Content/maps dir without extensions
+            new MenuItem { Type = MenuItemType.NewGame, Name = "exp" },
+            new MenuItem { Type = MenuItemType.NewGame, Name = "ortho" },
+
+            new MenuItem { Type = MenuItemType.Exit, Name = "Exit" }
         };
         int currentSelection = 0;
 
@@ -32,15 +37,30 @@ namespace MysteryIsland.Screens
             if (KeyboardHelper.WasKeyJustPressed(Keys.Enter))
             {
                 // screenManager.ChangeScreen(ScreenName.GameScreen);
-                screenManager.ChangeToGameScreenAndLoadMap($"maps/{maps[currentSelection]}");
+                var item = menuItems[currentSelection];
+
+                switch (item.Type)
+                {
+                    case MenuItemType.Resume:
+                        screenManager.ChangeScreen(ScreenName.GameScreen);
+                        break;
+                    case MenuItemType.NewGame:
+                        screenManager.ChangeToGameScreenAndLoadMap($"maps/{item.Map}");
+                        break;
+                    case MenuItemType.Exit:
+                        MysteryIslandGame.Instance.Exit();
+                        break;
+                    default:
+                        break;
+                }
             }
             if(KeyboardHelper.WasKeyJustPressed(Keys.Up))
             {
-                currentSelection = maps.Length - currentSelection - 1;
+                currentSelection = menuItems.Length - currentSelection - 1;
             }
             if (KeyboardHelper.WasKeyJustPressed(Keys.Down))
             {
-                currentSelection = (currentSelection + 1) % maps.Length;
+                currentSelection = (currentSelection + 1) % menuItems.Length;
             }
         }
 
@@ -48,18 +68,32 @@ namespace MysteryIsland.Screens
         {
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(font, "PICK A MAP", new Vector2(x: 20, y: 20 * 8), Color.WhiteSmoke);
-            for(int i = 0; i < maps.Length; i++)
+            spriteBatch.DrawString(font, "MENU", new Vector2(x: 20, y: 20 * 8), Color.WhiteSmoke);
+            for(int i = 0; i < menuItems.Length; i++)
             {
                 var color = i == currentSelection ? Color.HotPink : Color.WhiteSmoke;
                 spriteBatch.DrawString(
                     font, 
-                    maps[i],
+                    menuItems[i].Map,
                     new Vector2(20, 20 * (i+10)), 
                     color);
             }
 
             spriteBatch.End();
+        }
+
+        enum MenuItemType
+        {
+            Resume,
+            NewGame,
+            Exit
+        }
+
+        class MenuItem
+        {
+            public MenuItemType Type { get; set; }
+            public string Name { get; set; }
+            public string Map => Name;
         }
     }
 }
