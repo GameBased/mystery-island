@@ -22,6 +22,11 @@ namespace MysteryIsland.Screens
             SpriteBatch = spriteBatch;
         }
 
+        public void LoadMap(string mapfile)
+        {
+            world.LoadMap(mapfile);
+        }
+
         public void Update(GameTime gameTime, IScreenManager screenManager)
         {
             if (KeyboardHelper.WasKeyJustPressed(Keys.Escape))
@@ -36,7 +41,7 @@ namespace MysteryIsland.Screens
 
         public void Draw(GameTime gameTime)
         {
-            if (world.IsActive) world.Draw();
+            if (world.IsReady) world.Draw();
 
             // TODO: draw this from within the world... or something of that sort
             // to get rid of this extra spritebatch.Begin

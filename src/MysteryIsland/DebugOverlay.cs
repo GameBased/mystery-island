@@ -26,7 +26,7 @@ namespace MysteryIsland
         {
             this.world = world;
             font = content.Load<SpriteFont>("fonts/Cascadia");
-            world.Map.SetCollisionLayerVisibility(isVisible);
+            // world.Map.SetCollisionLayerVisibility(isVisible); // TODO: turn this back on (safely)
         }
 
         public void Update(GameTime gameTime)
@@ -40,6 +40,7 @@ namespace MysteryIsland
 
         public void DrawOnMap(SpriteBatch spriteBatch)
         {
+            if (!world.IsReady) return;
             if (isVisible is false) return;
             var player = world.Character;
             
@@ -63,6 +64,11 @@ namespace MysteryIsland
 
         public void DrawOnScreen(SpriteBatch spriteBatch, GameTime gameTime)
         {
+            if(!world.IsReady)
+            {
+                return;
+            }
+
             if (isVisible is false) return;
             var player = world.Character;
             var camera = world.Camera;

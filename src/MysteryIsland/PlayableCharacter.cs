@@ -22,7 +22,7 @@ namespace MysteryIsland
         private AnimatedSprite sprite;
         private RectangleF boundingRectangle;
         private Vector2 previousPosition = new Vector2(100, 100);
-        private Vector2 _position = new Vector2(100, 100);
+        private Vector2 _position = new Vector2(100, 100); // TODO: this should come from the map!
         public Vector2 Position => _position;
 
         public IShapeF Bounds => new RectangleF(

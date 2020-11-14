@@ -80,6 +80,11 @@ namespace MysteryIsland
             }
         }
 
+        public void LookAt(Vector2 position)
+        {
+            camera.LookAt(position);
+        }
+
         public Matrix GetViewMatrix() => camera.GetViewMatrix();
         public Vector2 ScreenToWorld(Vector2 screenPosition) => camera.ScreenToWorld(screenPosition);
         public RectangleF ScreenToWorld(Rectangle screenPosition) => new RectangleF(camera.Position + screenPosition.GetCorners()[0].ToVector2(), screenPosition.Size);
