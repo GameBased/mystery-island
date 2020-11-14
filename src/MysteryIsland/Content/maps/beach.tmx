@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="1">
+ <tileset firstgid="1" source="tilesets/tf-beach/beach-A1.tsx"/>
+ <tileset firstgid="193" source="tilesets/tf-beach/beach-B.tsx"/>
+ <tileset firstgid="449" source="tilesets/overlay/overlay.tsx"/>
+ <layer id="3" name="water" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztw0ENAAAMA6Hzr6JSZ2JPSFg1VVXfHi6PdxA=
+  </data>
+ </layer>
+ <layer id="4" name="land" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzt0r0NgzAUBOBHmRHIBhkpSCDZ+SnSQUsFAWbzWDkpRqLAydlyUr2Tvg7ubIETEaeUinYuRBovVw+jgofH9NdETyzmTqndqbvMZonnDFi4wBVucIdewu+x32PrhL4WOvmevTPZD+cJ7Vliiwm7eci0F7N7zLzJ7Oa+55oBRnjCBDMs8v4fzI82Nf/LC7c7/m0=
+  </data>
+ </layer>
+ <layer id="5" name="trees1" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFwwFMZGRgmMQ40K5gYHClsxtg/nYZBH4fBaNgFIyCUTAKYAAAAV4C1g==
+  </data>
+ </layer>
+ <layer id="6" name="trees2" width="30" height="20">
+  <properties>
+   <property name="RenderOrder" value="AfterCharacters"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYKAtSGRkYEgC4mRGGluEBgqB9hUBcTGd7V0ItG8R48j19ygYBaNgFIyCUTAKGBgAo/QHjw==
+  </data>
+ </layer>
+ <layer id="7" name="collision" width="30" height="20" opacity="0.42">
+  <properties>
+   <property name="Type" value="Collision"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFwwUcZBxoFwwMGKn+HgWkA1BawYdpZRe57iLHPnqCgch7w8lOeqbHUUB/AABK4hhB
+  </data>
+ </layer>
+</map>
