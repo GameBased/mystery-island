@@ -52,6 +52,7 @@ namespace MysteryIsland.World
         {
             map = content.Load<TiledMap>(mapfile);
             mapRenderer = new TiledMapRenderer(graphicsDevice, map);
+            SetCollisionLayerVisibility(false);
         }
 
         public void Update(GameTime gameTime)
