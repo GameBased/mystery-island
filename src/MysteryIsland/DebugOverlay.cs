@@ -10,7 +10,7 @@ namespace MysteryIsland
 {
     public class DebugOverlay
     {
-        private bool isVisible = Debugger.IsAttached;
+        private bool isVisible = false;
 
         private GameWorld world;
         private FramesPerSecondCounter counter = new FramesPerSecondCounter();
@@ -26,7 +26,6 @@ namespace MysteryIsland
         {
             this.world = world;
             font = content.Load<SpriteFont>("fonts/Cascadia");
-            // world.Map.SetCollisionLayerVisibility(isVisible); // TODO: turn this back on (safely)
         }
 
         public void Update(GameTime gameTime)
