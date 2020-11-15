@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="1">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="1">
  <tileset firstgid="1" source="tilesets/tf-beach/beach-A1.tsx"/>
  <tileset firstgid="193" source="tilesets/tf-beach/beach-B.tsx"/>
  <tileset firstgid="449" source="tilesets/overlay/overlay.tsx"/>
@@ -10,7 +10,17 @@
  </layer>
  <layer id="4" name="land" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJzt0r0NgzAUBOBHmRHIBhkpSCDZ+SnSQUsFAWbzWDkpRqLAydlyUr2Tvg7ubIETEaeUinYuRBovVw+jgofH9NdETyzmTqndqbvMZonnDFi4wBVucIdewu+x32PrhL4WOvmevTPZD+cJ7Vliiwm7eci0F7N7zLzJ7Oa+55oBRnjCBDMs8v4fzI82Nf/LC7c7/m0=
+   eJw7wcDAcGIUj+JRTDKOZGRgiINiaplDDI4C4iwoJsb8WCLMIRUT46dcCswnx15i7JQEqksE4iQgTgbiFCBOBeI0IK5mwK2P2PhAxppA8wqBuIiBMMDmpiQ87sFlXxIRdhEDiLWTk0r2kWKvFJXtJMZeavsTBhqBuAmIm4G4BYhbgbiNAZIeEmlk5yigHwAA0/f+cw==
+  </data>
+ </layer>
+ <layer id="9" name="bushes1" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF1ALajBBMb6AJtFOLznZrD4CdIHCYAeLfgQSHgPj4wDphFIyCUTAKRsEgBwDysgPT
+  </data>
+ </layer>
+ <layer id="8" name="bushes2" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4B8YMfIwGAPxA6M9LXXD2ifPxAH0NneUTAKRsEoGAWjgBgAAJivAbE=
   </data>
  </layer>
  <layer id="5" name="trees1" width="30" height="20">
@@ -31,7 +41,7 @@
    <property name="Type" value="Collision"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFwwUcZBxoFwwMGKn+HgWkA1BawYdpZRe57iLHPnqCgch7w8lOeqbHUUB/AABK4hhB
+   eJxjYBgFwwUcZBwYO2F4oMBA2j0KhhZATq/YMK3sItdd5NhHTzBQZc5wsZOe6XEU0B8AAHV3Goc=
   </data>
  </layer>
 </map>
