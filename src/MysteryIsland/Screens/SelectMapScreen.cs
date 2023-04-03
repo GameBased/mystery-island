@@ -16,8 +16,10 @@ namespace MysteryIsland.Screens
 
             // names of the map *.tmx files in the /Content/maps dir without extensions
             new MenuItem { Type = MenuItemType.NewGame, Name = "exp" },
+#if DEBUG
             new MenuItem { Type = MenuItemType.NewGame, Name = "ortho" },
             new MenuItem { Type = MenuItemType.NewGame, Name = "beach" },
+#endif
 
             new MenuItem { Type = MenuItemType.Exit, Name = "Exit" }
         };
