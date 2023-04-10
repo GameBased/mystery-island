@@ -3,9 +3,39 @@
   "isRoot": true,
   "tools": {
     "cake.tool": {
-      "version": "0.38.5",
+      "version": "3.0.0",
       "commands": [
         "dotnet-cake"
+      ]
+    },
+    "dotnet-mgcb-editor": {
+      "version": "3.8.1.303",
+      "commands": [
+        "mgcb-editor"
+      ]
+    },
+    "dotnet-mgcb-editor-linux": {
+      "version": "3.8.1.303",
+      "commands": [
+        "mgcb-editor-linux"
+      ]
+    },
+    "dotnet-mgcb-editor-windows": {
+      "version": "3.8.1.303",
+      "commands": [
+        "mgcb-editor-windows"
+      ]
+    },
+    "dotnet-mgcb-editor-mac": {
+      "version": "3.8.1.303",
+      "commands": [
+        "mgcb-editor-mac"
+      ]
+    },
+    "dotnet-mgcb": {
+      "version": "3.8.1.303",
+      "commands": [
+        "mgcb"
       ]
     }
   }
