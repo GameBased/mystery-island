@@ -20,8 +20,8 @@ const string ARTIFACTS = "./artifacts";
 Task("build")
     .Does(() =>
 {
-    DotNetCoreBuild(SLN,
-        new DotNetCoreBuildSettings
+    DotNetBuild(SLN,
+        new DotNetBuildSettings
         {
             Configuration = configuration
         }
@@ -38,8 +38,8 @@ Task("publish")
     {
         var filename = $"mystery-island-{runtime}.zip";
         var dir = System.IO.Path.Join(ARTIFACTS, runtime);
-        DotNetCorePublish(CSPROJ,
-            new DotNetCorePublishSettings
+        DotNetPublish(CSPROJ,
+            new DotNetPublishSettings
             {
                 Configuration = configuration,
                 OutputDirectory = dir,
