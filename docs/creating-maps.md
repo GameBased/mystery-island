@@ -4,7 +4,7 @@ TODO
 
 Notes
 
-1. Downloading and installing tools (.NET Core 3.1, Tiled)
+1. Downloading and installing tools (.NET Core 6.0, Tiled)
 2. downloading the source code
 3. using tiled to make changes to the map
 4. Building from source
