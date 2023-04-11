@@ -19,8 +19,8 @@ namespace MysteryIsland
         const string ANIMATION_WALK_LEFT     = "walk-left";
         const string ANIMATION_DEFAULT       = "look-backward";
 
-        private AnimatedSprite sprite;
-        private RectangleF boundingRectangle;
+        private AnimatedSprite? sprite;
+        // private RectangleF boundingRectangle;
         private Vector2 previousPosition = new Vector2(100, 100);
         private Vector2 _position = new Vector2(100, 100); // TODO: this should come from the map!
         public Vector2 Position => _position;
@@ -37,17 +37,19 @@ namespace MysteryIsland
         {
             var spriteSheet = content.Load<SpriteSheet>("characters/char1-sprite.sf", new JsonContentLoader());
             sprite = new AnimatedSprite(spriteSheet);
-            boundingRectangle = sprite.GetBoundingRectangle(new Transform2());
+            // boundingRectangle = sprite.GetBoundingRectangle(new Transform2());
             sprite.Play("walk-backward");
         }
 
 
         public void Update(GameTime gameTime)
         {
+            if (sprite is null) return;
+
             var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             var walkSpeed = deltaSeconds * 128;
             var keyboard = KeyboardHelper.State;
-            animation = animation.Replace("walk", "look");
+            animation = animation.Replace("walk", "look", StringComparison.InvariantCulture);
             previousPosition = Position;
 
             if (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up))

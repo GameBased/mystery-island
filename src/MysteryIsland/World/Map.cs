@@ -5,23 +5,27 @@ using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
+using MysteryIsland.Exceptions;
 using MysteryIsland.World.Collision;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MysteryIsland.World
 {
-    public class Map
+    public class Map : IDisposable
     {
-        public TiledMap map;
-        private TiledMapRenderer mapRenderer;
+        private TiledMap? map;
+        private TiledMapRenderer? mapRenderer;
 
         public int WidthInPixels => map?.WidthInPixels ?? 0;
         public int HeightInPixels => map?.HeightInPixels ?? 0;
 
-        private IEnumerable<TiledMapTileLayer> CollisionLayers => map.TileLayers.Where(l => l.Properties.ContainsKey("Type") && l.Properties["Type"] is "Collision");
+        private IEnumerable<TiledMapTileLayer> CollisionLayers => map!.TileLayers
+            .Where(l => 
+                l.Properties.ContainsKey("Type") 
+             && l.Properties["Type"] is "Collision");
         public IEnumerable<ICollisionActor> GetCollisionActors()
         {
+            if (map is null) throw new MapNotLoadedException();
+
             var tiles = CollisionLayers
                 .SelectMany(l => l.Tiles)
                 .Where(t => !t.IsBlank)
@@ -57,7 +61,9 @@ namespace MysteryIsland.World
 
         public void Update(GameTime gameTime)
         {
-            // TOOD: throw if a map isn't loaded at this point
+            if (map is null) throw new MapNotLoadedException();
+            if (mapRenderer is null) return;
+
             mapRenderer.Update(gameTime);
         }
 
@@ -77,6 +83,9 @@ namespace MysteryIsland.World
             const string RENDER_ORDER_BEFORE_CHARACTERS = "BeforeCharacters";
             const string RENDER_ORDER_AFTER_CHARACTERS = "AfterCharacters";
 
+            if(map is null) throw new MapNotLoadedException();
+            if (mapRenderer is null) return;
+
             var layersToRender = map.TileLayers.Where(l => shouldRender(l));
             foreach (var layer in layersToRender) mapRenderer.Draw(layer, camera.GetViewMatrix());
 
@@ -89,6 +98,26 @@ namespace MysteryIsland.World
                 if (beforePlayer) return order is RENDER_ORDER_BEFORE_CHARACTERS;
                 else return order is RENDER_ORDER_AFTER_CHARACTERS;
             }
+        }
+
+        private bool _disposed;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    mapRenderer?.Dispose();
+                }
+                _disposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

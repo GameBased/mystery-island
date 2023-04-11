@@ -9,12 +9,13 @@ namespace MysteryIsland
 {
     public class MysteryIslandGame : Game
     {
-        public static MysteryIslandGame Instance { get;  private set; }
+        public static MysteryIslandGame? Instance { get; private set; }
 
         private readonly GraphicsDeviceManager graphics;
-        public SpriteBatch SpriteBatch { get; private set; }
 
-        ScreenManager screenManager = new ScreenManager();
+        public SpriteBatch? SpriteBatch { get; private set; }
+
+        ScreenManager screenManager = new ();
 
         const int WIDTH = 960;
         const int HEIGHT = 540;
@@ -43,7 +44,7 @@ namespace MysteryIsland
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, WIDTH, HEIGHT);
+            using var viewportadapter = new BoxingViewportAdapter(Window, GraphicsDevice, WIDTH, HEIGHT);
             screenManager.LoadContent(Content, GraphicsDevice, SpriteBatch, viewportadapter);
         }
 
@@ -70,6 +71,21 @@ namespace MysteryIsland
             graphics.PreferredBackBufferHeight = height;
 
             graphics.ToggleFullScreen();
+        }
+
+        bool _disposed;
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    graphics.Dispose();
+                }
+                _disposed = true;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }
