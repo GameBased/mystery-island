@@ -7,12 +7,12 @@ using MysteryIsland.World;
 
 namespace MysteryIsland.Screens
 {
-    public class GameScreen : IScreen
+    public class GameScreen : IScreen, IDisposable
     {
-        private readonly DebugOverlay debugOverlay = new DebugOverlay();
-        private readonly GameWorld world = new GameWorld();
+        private readonly DebugOverlay debugOverlay = new ();
+        private readonly GameWorld world = new ();
 
-        private SpriteBatch SpriteBatch { get; set; }
+        private SpriteBatch? SpriteBatch { get; set; }
 
         public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, ViewportAdapter adapter)
         {
@@ -41,17 +41,42 @@ namespace MysteryIsland.Screens
 
         public void Draw(GameTime gameTime)
         {
-            if (world.IsReady) world.Draw();
+            if (SpriteBatch is null) return;
 
-            // TODO: draw this from within the world... or something of that sort
-            // to get rid of this extra spritebatch.Begin
-            SpriteBatch.Begin(transformMatrix: world.Camera.GetViewMatrix(), samplerState: new SamplerState { Filter = TextureFilter.Point });
-            debugOverlay.DrawOnMap(SpriteBatch);
-            SpriteBatch.End();
+            if (world.IsReady)
+            {
+                world.Draw();
+
+                // TODO: draw this from within the world... or something of that sort
+                // to get rid of this extra spritebatch.Begin
+                using var samplerState = new SamplerState { Filter = TextureFilter.Point };
+                SpriteBatch.Begin(transformMatrix: world.Camera.GetViewMatrix(), samplerState: samplerState);
+                debugOverlay.DrawOnMap(SpriteBatch);
+                SpriteBatch.End();
+            }
 
             SpriteBatch.Begin();
             debugOverlay.DrawOnScreen(SpriteBatch, gameTime);
             SpriteBatch.End();
+        }
+
+        private bool _disposed;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    world.Dispose();   
+                }
+
+                _disposed = true;
+            }
+        }
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

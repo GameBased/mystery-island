@@ -10,18 +10,18 @@ namespace MysteryIsland
 {
     public class DebugOverlay
     {
-        private bool isVisible = false;
+        private bool isVisible;
 
-        private GameWorld world;
+        private GameWorld? world;
         private FramesPerSecondCounter counter = new FramesPerSecondCounter();
 
         private void ToggleVisibility()
         {
             isVisible = !isVisible;
-            world.Map.SetCollisionLayerVisibility(isVisible);
+            world?.Map.SetCollisionLayerVisibility(isVisible);
         }
 
-        private SpriteFont font;
+        private SpriteFont? font;
         public void LoadContent(ContentManager content, GameWorld world)
         {
             this.world = world;
@@ -39,7 +39,7 @@ namespace MysteryIsland
 
         public void DrawOnMap(SpriteBatch spriteBatch)
         {
-            if (!world.IsReady) return;
+            if (world?.IsReady is not true) return;
             if (isVisible is false) return;
             var player = world.Character;
             
@@ -63,12 +63,9 @@ namespace MysteryIsland
 
         public void DrawOnScreen(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            if(!world.IsReady)
-            {
-                return;
-            }
-
+            if (world?.IsReady is not true) return;
             if (isVisible is false) return;
+
             var player = world.Character;
             var camera = world.Camera;
 

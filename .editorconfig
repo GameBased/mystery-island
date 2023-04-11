@@ -1,0 +1,29 @@
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+trim_trailing_whitespace = true
+
+[*.{md,mdx}]
+trim_trailing_whitespace = false
+
+[*.cs]
+
+# CA1812: Program is an internal class that is apparently never instantiated. If so, remove the code from the assembly. If this class is intended to contain only static members, make it static (Shared in Visual Basic).
+dotnet_diagnostic.CA1812.severity = none
+
+# CA1848: Use the LoggerMessage delegates
+dotnet_diagnostic.CA1848.severity = none
+
+
+# CA1062: Validate arguments of public methods
+# Justification:
+# Since,
+#  * Nullable reference is enabled on the project
+#  * Warnings are treated as errors
+#  * No code in this repo is meant for public consumption
+# non-nullable arguments of public methods will never be null
+# and nullable arguements will always be checked before use
+dotnet_diagnostic.CA1062.severity = none

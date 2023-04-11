@@ -12,21 +12,20 @@ namespace MysteryIsland.Screens
         
         MenuItem[] menuItems = new []
         {
-            new MenuItem { Type = MenuItemType.Resume, Name = "Resume" },
+            new MenuItem (Type: MenuItemType.Resume, Name: "Resume"),
 
             // names of the map *.tmx files in the /Content/maps dir without extensions
-            new MenuItem { Type = MenuItemType.NewGame, Name = "exp" },
+            new MenuItem (Type : MenuItemType.NewGame, Name : "exp"),
 #if DEBUG
-            new MenuItem { Type = MenuItemType.NewGame, Name = "ortho" },
-            new MenuItem { Type = MenuItemType.NewGame, Name = "beach" },
+            new MenuItem (Type: MenuItemType.NewGame, Name: "ortho"),
+            new MenuItem (Type: MenuItemType.NewGame, Name: "beach"),
 #endif
 
-            new MenuItem { Type = MenuItemType.Exit, Name = "Exit" }
+            new MenuItem (Type : MenuItemType.Exit, Name : "Exit")
         };
         int currentSelection = 1;
-        bool canResume = false;
-
-        string[] controls = new[]
+        bool canResume;
+        readonly string[] controls = new[]
         {
             "MENU CONTROLS",
             string.Empty,
@@ -44,9 +43,9 @@ namespace MysteryIsland.Screens
             " <ESC>      - Go back to menu"
         };
 
-        private SpriteFont font;
-        private SpriteBatch spriteBatch;
-        private ViewportAdapter adapter;
+        private SpriteFont? font;
+        private SpriteBatch? spriteBatch;
+        private ViewportAdapter? adapter;
 
         public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, ViewportAdapter adapter)
         {
@@ -71,7 +70,7 @@ namespace MysteryIsland.Screens
                         screenManager.ChangeToGameScreenAndLoadMap($"maps/{item.Map}");
                         break;
                     case MenuItemType.Exit:
-                        MysteryIslandGame.Instance.Exit();
+                        MysteryIslandGame.Instance?.Exit();
                         break;
                     default:
                         break;
@@ -92,6 +91,7 @@ namespace MysteryIsland.Screens
 
         public void Draw(GameTime gameTime)
         {
+            if (spriteBatch is null) return;
             spriteBatch.Begin();
 
             spriteBatch.DrawRectangle(new RectangleF(80, 20 * 6, 300, 20 * (menuItems.Length + 6)), Color.DimGray, thickness: 2.2f);
@@ -123,10 +123,8 @@ namespace MysteryIsland.Screens
             Exit
         }
 
-        class MenuItem
+        record MenuItem(MenuItemType Type, string Name)
         {
-            public MenuItemType Type { get; set; }
-            public string Name { get; set; }
             public string Map => Name;
         }
     }
