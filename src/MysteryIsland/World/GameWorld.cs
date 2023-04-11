@@ -19,15 +19,16 @@ namespace MysteryIsland.World
         private GraphicsDevice? graphicsDevice;
         private ContentManager? content;
 
+        private SpriteBatch? SpriteBatch { get; set; }
+
         [MemberNotNullWhen(true, 
             nameof(Camera), 
             nameof(Character), 
             nameof(collisionComponent), 
-            nameof(graphicsDevice), 
+            nameof(graphicsDevice),
+            nameof(SpriteBatch),
             nameof(content))]
         public bool IsReady { get; private set; }
-
-        private SpriteBatch? SpriteBatch { get; set; }
 
         public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, ViewportAdapter viewportAdapter)
         {
@@ -63,9 +64,6 @@ namespace MysteryIsland.World
 
         public void Update(GameTime gameTime)
         {
-            if (Camera is null) return;
-            if (Character is null) return;
-            if (collisionComponent is null) return;
             if (!IsReady) return;
 
             Character.Update(gameTime);
@@ -78,10 +76,6 @@ namespace MysteryIsland.World
 
         public void Draw()
         {
-            if (Camera is null) return;
-            if (SpriteBatch is null) return;
-            if (Character is null) return;
-
             if(!IsReady) return;
 
             Map.DrawLayersBelowCharacter(Camera);
