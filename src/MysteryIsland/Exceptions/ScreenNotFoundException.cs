@@ -1,5 +1,4 @@
 ﻿using MysteryIsland.Screens;
-using System;
 
 namespace MysteryIsland.Exceptions;
 

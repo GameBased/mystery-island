@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MysteryIsland.World;
-using System.Diagnostics;
 
 namespace MysteryIsland;
 
@@ -42,9 +41,9 @@ public class DebugOverlay
         if (world?.IsReady is not true) return;
         if (isVisible is false) return;
         var player = world.Character;
-        
+
         // Draw the player bounds
-        if(player.Bounds is RectangleF playerBounds)
+        if (player.Bounds is RectangleF playerBounds)
         {
             spriteBatch.DrawRectangle(playerBounds, Color.White);
         }
@@ -54,7 +53,7 @@ public class DebugOverlay
 
         foreach (var actor in world.Map.GetCollisionActors())
         {
-            if(actor.Bounds is RectangleF rect)
+            if (actor.Bounds is RectangleF rect)
             {
                 spriteBatch.DrawRectangle(rect, Color.Red);
             }

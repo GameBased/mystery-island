@@ -9,8 +9,8 @@ namespace MysteryIsland.Screens;
 
 public class GameScreen : IScreen, IDisposable
 {
-    private readonly DebugOverlay debugOverlay = new ();
-    private readonly GameWorld world = new ();
+    private readonly DebugOverlay debugOverlay = new();
+    private readonly GameWorld world = new();
 
     private SpriteBatch? SpriteBatch { get; set; }
 
@@ -67,7 +67,7 @@ public class GameScreen : IScreen, IDisposable
         {
             if (disposing)
             {
-                world.Dispose();   
+                world.Dispose();
             }
 
             _disposed = true;

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.ViewportAdapters;
 using MysteryIsland.Exceptions;
-using System.Collections.Generic;
 
 namespace MysteryIsland.Screens;
 
@@ -30,7 +29,7 @@ public class ScreenManager : IScreenManager
 
     public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, ViewportAdapter adapter)
     {
-        foreach(var screen in screens.Values)
+        foreach (var screen in screens.Values)
         {
             screen.LoadContent(content, graphicsDevice, spriteBatch, adapter);
         }

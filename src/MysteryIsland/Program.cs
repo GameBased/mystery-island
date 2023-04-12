@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MysteryIsland;
+﻿namespace MysteryIsland;
 
 public static class Program
 {

@@ -2,15 +2,15 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.ViewportAdapters;
 using MonoGame.Extended;
+using MonoGame.Extended.ViewportAdapters;
 
 namespace MysteryIsland.Screens;
 
 public class SelectMapScreen : IScreen
 {
-    
-    MenuItem[] menuItems = new []
+
+    MenuItem[] menuItems = new[]
     {
         new MenuItem (Type: MenuItemType.Resume, Name: "Resume"),
 
@@ -76,7 +76,7 @@ public class SelectMapScreen : IScreen
                     break;
             }
         }
-        if(KeyboardHelper.WasKeyJustPressed(Keys.Up))
+        if (KeyboardHelper.WasKeyJustPressed(Keys.Up))
         {
             currentSelection = currentSelection - 1;
             if (currentSelection < 0) currentSelection = menuItems.Length - 1;
@@ -96,18 +96,19 @@ public class SelectMapScreen : IScreen
 
         spriteBatch.DrawRectangle(new RectangleF(80, 20 * 6, 300, 20 * (menuItems.Length + 6)), Color.DimGray, thickness: 2.2f);
         spriteBatch.DrawString(font, "MENU", new Vector2(x: 120, y: 20 * 8), Color.WhiteSmoke);
-        for(int i = 0; i < menuItems.Length; i++)
+        for (int i = 0; i < menuItems.Length; i++)
         {
-            var color = menuItems[i].Type is MenuItemType.Resume && !canResume ? Color.DimGray : 
-                        i == currentSelection ? Color.HotPink : Color.WhiteSmoke;
+            var color = menuItems[i].Type is MenuItemType.Resume && !canResume
+                        ? Color.DimGray
+                        : i == currentSelection ? Color.HotPink : Color.WhiteSmoke;
             spriteBatch.DrawString(
-                font, 
+                font,
                 menuItems[i].Map,
-                new Vector2(120, 20 * (i+10)), 
+                new Vector2(120, 20 * (i + 10)),
                 color);
         }
 
-        for(int i = 0; i < controls.Length; i++)
+        for (int i = 0; i < controls.Length; i++)
         {
             var color = Color.DimGray;
             spriteBatch.DrawString(font, controls[i], new Vector2(520, 20 * (i + 5)), color);
@@ -123,7 +124,7 @@ public class SelectMapScreen : IScreen
         Exit
     }
 
-    record MenuItem(MenuItemType Type, string Name)
+    sealed record MenuItem(MenuItemType Type, string Name)
     {
         public string Map => Name;
     }
