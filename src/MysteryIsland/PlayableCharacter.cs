@@ -8,87 +8,86 @@ using MonoGame.Extended.Content;
 using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
 
-namespace MysteryIsland
+namespace MysteryIsland;
+
+public class PlayableCharacter : ICollisionActor
 {
-    public class PlayableCharacter : ICollisionActor
+    // the constants are defined in the .sf file
+    const string ANIMATION_WALK_BACKWARD = "walk-backward";
+    const string ANIMATION_WALK_FORWARD  = "walk-forward";
+    const string ANIMATION_WALK_RIGHT    = "walk-right";
+    const string ANIMATION_WALK_LEFT     = "walk-left";
+    const string ANIMATION_DEFAULT       = "look-backward";
+
+    private AnimatedSprite? sprite;
+    // private RectangleF boundingRectangle;
+    private Vector2 previousPosition = new Vector2(100, 100);
+    private Vector2 _position = new Vector2(100, 100); // TODO: this should come from the map!
+    public Vector2 Position => _position;
+
+    public IShapeF Bounds => new RectangleF(
+             x: _position.X - 10,
+             y: _position.Y + 4,
+         width: 22,
+        height: 18);
+
+    private string animation = ANIMATION_DEFAULT;
+
+    public void LoadContent(ContentManager content)
     {
-        // the constants are defined in the .sf file
-        const string ANIMATION_WALK_BACKWARD = "walk-backward";
-        const string ANIMATION_WALK_FORWARD  = "walk-forward";
-        const string ANIMATION_WALK_RIGHT    = "walk-right";
-        const string ANIMATION_WALK_LEFT     = "walk-left";
-        const string ANIMATION_DEFAULT       = "look-backward";
+        var spriteSheet = content.Load<SpriteSheet>("characters/char1-sprite.sf", new JsonContentLoader());
+        sprite = new AnimatedSprite(spriteSheet);
+        // boundingRectangle = sprite.GetBoundingRectangle(new Transform2());
+        sprite.Play("walk-backward");
+    }
 
-        private AnimatedSprite? sprite;
-        // private RectangleF boundingRectangle;
-        private Vector2 previousPosition = new Vector2(100, 100);
-        private Vector2 _position = new Vector2(100, 100); // TODO: this should come from the map!
-        public Vector2 Position => _position;
 
-        public IShapeF Bounds => new RectangleF(
-                 x: _position.X - 10,
-                 y: _position.Y + 4,
-             width: 22,
-            height: 18);
+    public void Update(GameTime gameTime)
+    {
+        if (sprite is null) return;
 
-        private string animation = ANIMATION_DEFAULT;
+        var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        var walkSpeed = deltaSeconds * 128;
+        var keyboard = KeyboardHelper.State;
+        animation = animation.Replace("walk", "look", StringComparison.InvariantCulture);
+        previousPosition = Position;
 
-        public void LoadContent(ContentManager content)
+        if (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up))
         {
-            var spriteSheet = content.Load<SpriteSheet>("characters/char1-sprite.sf", new JsonContentLoader());
-            sprite = new AnimatedSprite(spriteSheet);
-            // boundingRectangle = sprite.GetBoundingRectangle(new Transform2());
-            sprite.Play("walk-backward");
+            animation = ANIMATION_WALK_FORWARD;
+            _position.Y -= walkSpeed;
         }
 
-
-        public void Update(GameTime gameTime)
+        if (keyboard.IsKeyDown(Keys.S) || keyboard.IsKeyDown(Keys.Down))
         {
-            if (sprite is null) return;
-
-            var deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            var walkSpeed = deltaSeconds * 128;
-            var keyboard = KeyboardHelper.State;
-            animation = animation.Replace("walk", "look", StringComparison.InvariantCulture);
-            previousPosition = Position;
-
-            if (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up))
-            {
-                animation = ANIMATION_WALK_FORWARD;
-                _position.Y -= walkSpeed;
-            }
-
-            if (keyboard.IsKeyDown(Keys.S) || keyboard.IsKeyDown(Keys.Down))
-            {
-                animation = ANIMATION_WALK_BACKWARD;
-                _position.Y += walkSpeed;
-            }
-
-            if (keyboard.IsKeyDown(Keys.A) || keyboard.IsKeyDown(Keys.Left))
-            {
-                animation = ANIMATION_WALK_LEFT;
-                _position.X -= walkSpeed;
-            }
-
-            if (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Right))
-            {
-                animation = ANIMATION_WALK_RIGHT;
-                _position.X += walkSpeed;
-            }
-
-            sprite.Play(animation);
-            sprite.Update(gameTime);
+            animation = ANIMATION_WALK_BACKWARD;
+            _position.Y += walkSpeed;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        if (keyboard.IsKeyDown(Keys.A) || keyboard.IsKeyDown(Keys.Left))
         {
-            spriteBatch.Draw(sprite, Position);
+            animation = ANIMATION_WALK_LEFT;
+            _position.X -= walkSpeed;
         }
 
-        public virtual void OnCollision(CollisionEventArgs collisionInfo)
+        if (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Right))
         {
-            _position = previousPosition;
-            
+            animation = ANIMATION_WALK_RIGHT;
+            _position.X += walkSpeed;
         }
+
+        sprite.Play(animation);
+        sprite.Update(gameTime);
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        spriteBatch.Draw(sprite, Position);
+    }
+
+    public virtual void OnCollision(CollisionEventArgs collisionInfo)
+    {
+        _position = previousPosition;
+        
     }
 }
