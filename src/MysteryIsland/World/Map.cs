@@ -86,8 +86,7 @@ public class Map : IDisposable
         if (map is null) throw new MapNotLoadedException();
         if (mapRenderer is null) return;
 
-        var layersToRender = map.TileLayers.Where(l => shouldRender(l));
-        foreach (var layer in layersToRender) mapRenderer.Draw(layer, camera.GetViewMatrix());
+        foreach (var layer in map.TileLayers.Where(shouldRender)) mapRenderer.Draw(layer, camera.GetViewMatrix());
 
         bool shouldRender(TiledMapLayer layer)
         {
