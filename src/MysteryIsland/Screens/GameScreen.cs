@@ -45,14 +45,10 @@ public class GameScreen : IScreen, IDisposable
 
         if (world.IsReady)
         {
-            world.Draw();
-
-            // TODO: draw this from within the world... or something of that sort
-            // to get rid of this extra spritebatch.Begin
-            using var samplerState = new SamplerState { Filter = TextureFilter.Point };
-            SpriteBatch.Begin(transformMatrix: world.Camera.GetViewMatrix(), samplerState: samplerState);
-            debugOverlay.DrawOnMap(SpriteBatch);
-            SpriteBatch.End();
+            world.Draw((sb) =>
+            {
+                debugOverlay.DrawOnMap(SpriteBatch);
+            });
         }
 
         SpriteBatch.Begin();

@@ -74,7 +74,7 @@ public class GameWorld : IDisposable
         collisionComponent.Update(gameTime);
     }
 
-    public void Draw()
+    public void Draw(Action<SpriteBatch> draw)
     {
         if (!IsReady) return;
 
@@ -83,6 +83,7 @@ public class GameWorld : IDisposable
         using var samplerState = new SamplerState { Filter = TextureFilter.Point };
         SpriteBatch.Begin(transformMatrix: Camera.GetViewMatrix(), samplerState: samplerState);
         Character.Draw(SpriteBatch);
+        draw(SpriteBatch);
         SpriteBatch.End();
 
         Map.DrawLayersAboveCharacter(Camera);
