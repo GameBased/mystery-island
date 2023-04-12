@@ -9,6 +9,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,9 +18,5 @@
       <_Parameter1_IsLiteral>true</_Parameter1_IsLiteral>
     </AssemblyAttribute>
   </ItemGroup>
-
-  <!-- <PropertyGroup>
-    <RunSettingsFilePath>.runsettings</RunSettingsFilePath>
-  </PropertyGroup> -->
 
 </Project>
