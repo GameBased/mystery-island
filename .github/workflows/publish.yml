@@ -12,15 +12,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.310
+        dotnet-version: 7.0.203
     - name: Install fonts
       run: |
-        sudo add-apt-repository ppa:justinabrahms/ttf-cascadia-code
-        sudo apt-get update
-        sudo apt-get install ttf-cascadia-code
+        wget "https://github.com/microsoft/cascadia-code/releases/download/v2111.01/CascadiaCode-2111.01.zip"
+        unzip CascadiaCode-2111.01.zip
+        mkdir -p ~/.local/share/fonts
+        cp ./ttf/*.ttf ~/.local/share/fonts
     - name: Install tools
       run: dotnet tool restore
     - name: Build artifacts
