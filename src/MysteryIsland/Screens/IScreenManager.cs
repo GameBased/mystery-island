@@ -1,8 +1,7 @@
-﻿namespace MysteryIsland.Screens
+﻿namespace MysteryIsland.Screens;
+
+public interface IScreenManager
 {
-    public interface IScreenManager
-    {
-        void ChangeScreen(ScreenName screenName);
-        void ChangeToGameScreenAndLoadMap(string mapfile);
-    }
+    void ChangeScreen(ScreenName screenName);
+    void ChangeToGameScreenAndLoadMap(string mapfile);
 }

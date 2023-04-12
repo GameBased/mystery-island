@@ -5,56 +5,55 @@ using MonoGame.Extended.ViewportAdapters;
 using MysteryIsland.Exceptions;
 using System.Collections.Generic;
 
-namespace MysteryIsland.Screens
+namespace MysteryIsland.Screens;
+
+public enum ScreenName
 {
-    public enum ScreenName
+    GameScreen,
+    SelectMapScreen
+}
+
+public class ScreenManager : IScreenManager
+{
+    private Dictionary<ScreenName, IScreen> screens = new Dictionary<ScreenName, IScreen>
     {
-        GameScreen,
-        SelectMapScreen
+        { ScreenName.SelectMapScreen, new SelectMapScreen() },
+        { ScreenName.GameScreen, new GameScreen() }
+    };
+
+    private IScreen currentScreen;
+
+    public ScreenManager()
+    {
+        currentScreen = screens[ScreenName.SelectMapScreen];
     }
 
-    public class ScreenManager : IScreenManager
+    public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, ViewportAdapter adapter)
     {
-        private Dictionary<ScreenName, IScreen> screens = new Dictionary<ScreenName, IScreen>
+        foreach(var screen in screens.Values)
         {
-            { ScreenName.SelectMapScreen, new SelectMapScreen() },
-            { ScreenName.GameScreen, new GameScreen() }
-        };
-
-        private IScreen currentScreen;
-
-        public ScreenManager()
-        {
-            currentScreen = screens[ScreenName.SelectMapScreen];
+            screen.LoadContent(content, graphicsDevice, spriteBatch, adapter);
         }
+    }
 
-        public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, SpriteBatch spriteBatch, ViewportAdapter adapter)
-        {
-            foreach(var screen in screens.Values)
-            {
-                screen.LoadContent(content, graphicsDevice, spriteBatch, adapter);
-            }
-        }
+    public void ChangeScreen(ScreenName screenName)
+    {
+        currentScreen = screens[screenName] ?? throw new ScreenNotFoundException(screenName);
+    }
 
-        public void ChangeScreen(ScreenName screenName)
-        {
-            currentScreen = screens[screenName] ?? throw new ScreenNotFoundException(screenName);
-        }
+    public void ChangeToGameScreenAndLoadMap(string mapfile)
+    {
+        currentScreen = screens[ScreenName.GameScreen] ?? throw new ScreenNotFoundException(ScreenName.GameScreen);
+        (currentScreen as GameScreen)?.LoadMap(mapfile);
+    }
 
-        public void ChangeToGameScreenAndLoadMap(string mapfile)
-        {
-            currentScreen = screens[ScreenName.GameScreen] ?? throw new ScreenNotFoundException(ScreenName.GameScreen);
-            (currentScreen as GameScreen)?.LoadMap(mapfile);
-        }
+    public void Update(GameTime gameTime)
+    {
+        currentScreen.Update(gameTime, this);
+    }
 
-        public void Update(GameTime gameTime)
-        {
-            currentScreen.Update(gameTime, this);
-        }
-
-        public void Draw(GameTime gameTime)
-        {
-            currentScreen.Draw(gameTime);
-        }
+    public void Draw(GameTime gameTime)
+    {
+        currentScreen.Draw(gameTime);
     }
 }
