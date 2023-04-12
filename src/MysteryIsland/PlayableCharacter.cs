@@ -88,6 +88,6 @@ public class PlayableCharacter : ICollisionActor
     public virtual void OnCollision(CollisionEventArgs collisionInfo)
     {
         _position = previousPosition;
-        
+
     }
 }

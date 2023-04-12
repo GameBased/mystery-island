@@ -10,7 +10,7 @@ namespace MysteryIsland.World;
 
 public class GameWorld : IDisposable
 {
-    
+
     public Camera? Camera { get; private set; }
     public Map Map { get; } = new Map();
     public PlayableCharacter? Character { get; private set; }
@@ -21,10 +21,10 @@ public class GameWorld : IDisposable
 
     private SpriteBatch? SpriteBatch { get; set; }
 
-    [MemberNotNullWhen(true, 
-        nameof(Camera), 
-        nameof(Character), 
-        nameof(collisionComponent), 
+    [MemberNotNullWhen(true,
+        nameof(Camera),
+        nameof(Character),
+        nameof(collisionComponent),
         nameof(graphicsDevice),
         nameof(SpriteBatch),
         nameof(content))]
@@ -76,7 +76,7 @@ public class GameWorld : IDisposable
 
     public void Draw()
     {
-        if(!IsReady) return;
+        if (!IsReady) return;
 
         Map.DrawLayersBelowCharacter(Camera);
 
@@ -84,7 +84,7 @@ public class GameWorld : IDisposable
         SpriteBatch.Begin(transformMatrix: Camera.GetViewMatrix(), samplerState: samplerState);
         Character.Draw(SpriteBatch);
         SpriteBatch.End();
-        
+
         Map.DrawLayersAboveCharacter(Camera);
     }
 

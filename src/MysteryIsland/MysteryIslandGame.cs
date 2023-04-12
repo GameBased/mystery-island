@@ -15,7 +15,7 @@ public class MysteryIslandGame : Game
 
     public SpriteBatch? SpriteBatch { get; private set; }
 
-    ScreenManager screenManager = new ();
+    ScreenManager screenManager = new();
 
     const int WIDTH = 960;
     const int HEIGHT = 540;

@@ -13,5 +13,6 @@ public static class KeyboardHelper
         State = KeyboardExtended.GetState();
     }
 
-    public static bool WasKeyJustPressed(Keys key) => State.WasKeyJustDown(key);
+    public static bool WasKeyJustPressed(Keys key)
+        => State.WasKeyJustDown(key);
 }

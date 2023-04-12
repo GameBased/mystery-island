@@ -19,8 +19,8 @@ public class Map : IDisposable
     public int HeightInPixels => map?.HeightInPixels ?? 0;
 
     private IEnumerable<TiledMapTileLayer> CollisionLayers => map!.TileLayers
-        .Where(l => 
-            l.Properties.ContainsKey("Type") 
+        .Where(l =>
+            l.Properties.ContainsKey("Type")
          && l.Properties["Type"] is "Collision");
     public IEnumerable<ICollisionActor> GetCollisionActors()
     {
@@ -36,17 +36,17 @@ public class Map : IDisposable
 
         IEnumerable<StaticActor> getMapBounds()
         {
-            yield return new StaticActor(new RectangleF(0,                                         0, map.WidthInPixels,                .1f));
-            yield return new StaticActor(new RectangleF(0,                                         0,               .1f,  map.HeightInPixels));
-            yield return new StaticActor(new RectangleF(map.WidthInPixels - 1,                     0,               .1f,  map.HeightInPixels));
-            yield return new StaticActor(new RectangleF(0,                     map.HeightInPixels - 1, map.WidthInPixels,                1f));
+            yield return new (new RectangleF(0,                                          0, map.WidthInPixels,               .1f));
+            yield return new (new RectangleF(0,                                          0,               .1f,  map.HeightInPixels));
+            yield return new (new RectangleF(map.WidthInPixels - 1,                      0,               .1f,  map.HeightInPixels));
+            yield return new (new RectangleF(0,                     map.HeightInPixels - 1, map.WidthInPixels,                .1f));
 
         }
     }
 
     public void SetCollisionLayerVisibility(bool visibility)
     {
-        foreach(var layer in CollisionLayers)
+        foreach (var layer in CollisionLayers)
         {
             layer.IsVisible = visibility;
         }
@@ -83,7 +83,7 @@ public class Map : IDisposable
         const string RENDER_ORDER_BEFORE_CHARACTERS = "BeforeCharacters";
         const string RENDER_ORDER_AFTER_CHARACTERS = "AfterCharacters";
 
-        if(map is null) throw new MapNotLoadedException();
+        if (map is null) throw new MapNotLoadedException();
         if (mapRenderer is null) return;
 
         var layersToRender = map.TileLayers.Where(l => shouldRender(l));

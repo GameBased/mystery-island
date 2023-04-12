@@ -8,7 +8,7 @@ namespace MysteryIsland;
 public class Camera
 {
     /// <summary>
-    /// The camera will only pan when the character's viewport position 
+    /// The camera will only pan when the character's viewport position
     /// is PAN_BOUNDARY pixels away from a viewport edge
     /// </summary>
     const int PAN_BOUNDARY = 100;
@@ -83,12 +83,12 @@ public class Camera
     public void LookAt(Vector2 position)
     {
         // camera.LookAt(position);
-        camera.Position = position; // this will do for now... 
+        camera.Position = position; // this will do for now...
                                     // but will be nice to have a proper LookAt() that tries to center a map coordinate on the screen
     }
 
     public Matrix GetViewMatrix() => camera.GetViewMatrix();
     public Vector2 ScreenToWorld(Vector2 screenPosition) => camera.ScreenToWorld(screenPosition);
-    public RectangleF ScreenToWorld(Rectangle screenPosition) => new RectangleF(camera.Position + screenPosition.GetCorners()[0].ToVector2(), screenPosition.Size);
+    public RectangleF ScreenToWorld(Rectangle screenPosition) => new (camera.Position + screenPosition.GetCorners()[0].ToVector2(), screenPosition.Size);
     public Vector2 WorldToScreen(Vector2 screenPosition) => camera.WorldToScreen(screenPosition);
 }
